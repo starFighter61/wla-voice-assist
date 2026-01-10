@@ -5,28 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>West LA Computer Expert | Fast On-Site & Remote PC Support</title>
     <meta name="description" content="West LA Computer Expert offers on-site and remote PC & network support. Call (310) 850-8093." />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
-
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        brand: { bg: '#0B1220', card: '#111A2E', accent: '#2DD4BF', muted: '#94A3B8' }
-                    },
+                    colors: { brand: { bg: '#0B1220', card: '#111A2E', accent: '#2DD4BF', muted: '#94A3B8' } },
                     boxShadow: { glow: '0 0 40px rgba(45, 212, 191, 0.15)' }
                 }
             }
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <style>body { font-family: 'Inter', sans-serif; } section { scroll-margin-top: 96px; }</style>
+    <style>body { font-family: sans-serif; } section { scroll-margin-top: 96px; }</style>
 </head>
-
 <body id="top" class="bg-brand-bg text-white">
 
     <nav class="sticky top-0 z-50 backdrop-blur bg-brand-bg/80 border-b border-white/5">
@@ -41,7 +33,6 @@
                 <button onclick="toggleVoice()" class="px-4 py-2 rounded-lg bg-brand-card border border-white/10 hover:border-brand-accent/60 hover:shadow-glow transition text-sm font-semibold">
                     <i class="fa-solid fa-microphone text-brand-accent"></i> Voice Assist
                 </button>
-                <a href="tel:13108508093" class="px-4 py-2 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition text-sm">Call Now</a>
             </div>
         </div>
     </nav>
@@ -51,7 +42,7 @@
             <div>
                 <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">Fix your computer <span class="text-brand-accent">today</span>.</h1>
                 <p class="text-gray-300 text-lg mt-4 max-w-xl">Slow PC? Wi-Fi problems? I'll troubleshoot and fix it quickly — on-site or remote.</p>
-                <div class="mt-8 flex flex-col sm:flex-row gap-3">
+                <div class="mt-8">
                     <a href="tel:13108508093" class="px-7 py-4 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition">Call (310) 850-8093</a>
                 </div>
             </div>
@@ -59,10 +50,10 @@
                 <h2 class="text-2xl font-bold">Tell Us What's Broken</h2>
                 <form id="lead-form" name="lead" method="POST" data-netlify="true" class="space-y-4 mt-4">
                     <input type="hidden" name="form-name" value="lead" />
-                    <input name="name" required class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-accent" placeholder="Your Name" />
-                    <input name="phone" required class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-accent" placeholder="Phone Number" />
-                    <input name="email" required class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-accent" placeholder="Email" />
-                    <textarea name="message" rows="3" required class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-accent" placeholder="Describe the issue..."></textarea>
+                    <input name="name" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white" placeholder="Your Name" />
+                    <input name="phone" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white" placeholder="Phone Number" />
+                    <input name="email" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white" placeholder="Email" />
+                    <textarea name="message" rows="3" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white" placeholder="Describe the issue..."></textarea>
                     <button type="submit" class="w-full px-6 py-4 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition">Send Request</button>
                 </form>
             </div>
@@ -76,141 +67,52 @@
                     <div class="font-bold text-lg">Voice Assist</div>
                     <button onclick="toggleVoice()" class="text-gray-300 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
                 </div>
-                <p class="text-gray-300 mt-3">Speak naturally. Say “cancel” to stop.</p>
                 <div class="mt-6 bg-black/25 border border-white/10 rounded-xl p-4">
                     <div id="voice-transcript" class="text-gray-200">AI: "Click the mic and start speaking."</div>
-                </div>
-                <div class="mt-5 flex gap-2">
-                    <input id="manual-input" class="flex-1 bg-black/20 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-brand-accent" placeholder="Or type here…" />
-                    <button onclick="handleInput(document.getElementById('manual-input').value)" class="px-5 py-3 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition">Send</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        let socket, mediaRecorder, micStream, intakeStep = 0;
-        let aiSpeaking = false;
-        const userEdited = { name: false, phone: false, email: false, message: false };
-        const intakeData = { name: '', phone: '', email: '', location: '', device: '', issue: '' };
+        const ui = { overlay: document.getElementById('voice-overlay'), transcript: document.getElementById('voice-transcript') };
+        let socket, mediaRecorder;
 
-        const ui = {
-            overlay: document.getElementById('voice-overlay'),
-            transcript: document.getElementById('voice-transcript'),
-            manual: document.getElementById('manual-input'),
-            fName: document.querySelector('input[name="name"]'),
-            fPhone: document.querySelector('input[name="phone"]'),
-            fEmail: document.querySelector('input[name="email"]'),
-            fMsg: document.querySelector('textarea[name="message"]')
-        };
-
-        ui.fName.addEventListener('input', () => userEdited.name = true);
-        ui.fPhone.addEventListener('input', () => userEdited.phone = true);
-        ui.fEmail.addEventListener('input', () => userEdited.email = true);
-        ui.fMsg.addEventListener('input', () => userEdited.message = true);
-
-        function safeSet(fieldKey, el, value) {
-            if (!userEdited[fieldKey] || !el.value) el.value = value;
-        }
-
-        async function toggleVoice() {
+        function toggleVoice() {
             if (ui.overlay.classList.contains('hidden')) {
                 ui.overlay.classList.remove('hidden');
-                intakeStep = 0;
-                await startStreaming();
+                startStreaming();
             } else {
                 ui.overlay.classList.add('hidden');
-                stopStreaming();
+                if(mediaRecorder) mediaRecorder.stop();
+                if(socket) socket.close();
             }
-        }
-
-        async function getDeepgramToken() {
-            const r = await fetch('/.netlify/functions/deepgram-token');
-            if (!r.ok) throw new Error('Network error: ' + r.status);
-            const data = await r.json();
-            return data.access_token;
         }
 
         async function startStreaming() {
             try {
-                // 1. Get Microphone
-                micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
-                // 2. Get Key
-                const jwt = await getDeepgramToken();
-
-                // 3. Connect to Deepgram
-                socket = new WebSocket('wss://api.deepgram.com/v1/listen?punctuate=true&model=nova-2&smart_format=true', ['token', jwt]);
-
-                socket.onopen = () => {
-                    mediaRecorder = new MediaRecorder(micStream, { mimeType: 'audio/webm' });
-                    mediaRecorder.addEventListener('dataavailable', e => {
-                        if (e.data.size > 0 && socket.readyState === 1) socket.send(e.data);
-                    });
-                    mediaRecorder.start(250);
-                    speak("Hi! Tell me briefly what the problem is.");
-                };
-
-                socket.onmessage = (msg) => {
-                    if (aiSpeaking) return;
-                    const received = JSON.parse(msg.data);
-                    const transcript = received.channel?.alternatives?.[0]?.transcript;
-                    if (received.is_final && transcript && transcript.trim().length > 1) {
-                        ui.transcript.innerText = `You: "${transcript}"`;
-                        processLogic(transcript.trim());
-                    }
-                };
-
-                socket.onerror = (e) => { console.error(e); ui.transcript.innerText = 'AI: "Connection lost."'; };
+                // IMPORTANT: THIS FETCH FAILS IF YOU DOUBLE CLICK THE FILE. IT ONLY WORKS ON NETLIFY.
+                const r = await fetch('/.netlify/functions/deepgram-token');
+                if (!r.ok) throw new Error("Backend Error (Are you running locally?)");
+                const data = await r.json();
                 
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                socket = new WebSocket('wss://api.deepgram.com/v1/listen?punctuate=true&model=nova-2&smart_format=true', ['token', data.access_token]);
+                
+                socket.onopen = () => {
+                    mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+                    mediaRecorder.addEventListener('dataavailable', e => { if (e.data.size > 0) socket.send(e.data); });
+                    mediaRecorder.start(250);
+                    ui.transcript.innerText = "AI: Listening...";
+                };
+                socket.onmessage = (msg) => {
+                    const rec = JSON.parse(msg.data);
+                    const trans = rec.channel?.alternatives?.[0]?.transcript;
+                    if (rec.is_final && trans) ui.transcript.innerText = `You: "${trans}"`;
+                };
             } catch (e) {
-                // --- THIS IS THE DEBUGGER ---
-                alert("REAL ERROR: " + e.name + ": " + e.message);
-                console.error(e);
+                alert("ERROR: " + e.message);
             }
-        }
-
-        function stopStreaming() {
-            try {
-                if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-                if (socket) socket.close();
-                if (micStream) micStream.getTracks().forEach(t => t.stop());
-            } catch (e) {}
-        }
-
-        function processLogic(text) {
-            const lower = text.toLowerCase();
-            if (lower.includes("cancel")) { intakeStep = 0; speak("Cancelled."); return; }
-
-            switch (intakeStep) {
-                case 0: intakeStep = 1; speak("What's your first name?"); break;
-                case 1: intakeData.name = text; safeSet('name', ui.fName, text); intakeStep = 2; speak(`Thanks. Phone number?`); break;
-                case 2: intakeData.phone = text; safeSet('phone', ui.fPhone, text); intakeStep = 3; speak("Email address?"); break;
-                case 3: 
-                    if (text.includes("@") || lower.includes(" at ")) {
-                        intakeData.email = text.replace(/\s+at\s+/i, "@").replace(/\s/g, "");
-                        safeSet('email', ui.fEmail, intakeData.email);
-                    }
-                    intakeStep = 4; speak("Briefly, what is the issue?"); break;
-                case 4:
-                    intakeData.issue = text; safeSet('message', ui.fMsg, text); intakeStep = 0; speak("All set. Click Send Request."); stopStreaming(); break;
-            }
-        }
-
-        function speak(text) {
-            ui.transcript.innerText = `AI: "${text}"`;
-            window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(text);
-            aiSpeaking = true;
-            u.onend = () => { aiSpeaking = false; };
-            window.speechSynthesis.speak(u);
-        }
-
-        function handleInput(val) {
-            if (!val) return;
-            ui.transcript.innerText = `You: "${val}"`;
-            processLogic(val);
-            ui.manual.value = '';
         }
     </script>
 </body>
