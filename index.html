@@ -301,6 +301,8 @@
         function toggleVoice() {
             if (ui.widget.style.display === 'none') {
                 ui.widget.style.setProperty('display', 'block', 'important');
+                // Auto-scroll to form so user sees it
+                document.getElementById('lead-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 startStreaming();
             } else {
                 ui.widget.style.setProperty('display', 'none', 'important');
