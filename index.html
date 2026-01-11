@@ -49,7 +49,7 @@
 </head>
 <body id="top" class="bg-brand-bg text-white">
 
-    <nav class="sticky top-0 z-50 backdrop-blur bg-brand-bg/80 border-b border-white/5">
+    <nav class="sticky top-0 z-[100] backdrop-blur bg-brand-bg/80 border-b border-white/5">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-brand-card border border-white/10 grid place-items-center shadow-glow">
@@ -65,7 +65,7 @@
                 <a href="#services" class="hover:text-brand-accent transition">Services</a>
                 <a href="#reviews" class="hover:text-brand-accent transition">Reviews</a>
                 <a href="#faq" class="hover:text-brand-accent transition">FAQ</a>
-                <a href="business.html" class="text-brand-accent hover:text-white transition border border-brand-accent/30 px-3 py-1 rounded">For Businesses</a>
+                <a href="business.html" class="text-brand-accent hover:text-white transition border border-brand-accent/30 px-3 py-1 rounded cursor-pointer relative z-50">For Businesses</a>
             </div>
 
             <button onclick="toggleVoice()" class="px-4 py-2 rounded-lg bg-brand-card border border-white/10 hover:border-brand-accent/60 transition text-sm font-semibold flex items-center gap-2">
@@ -270,7 +270,6 @@
         
         let socket, mediaRecorder, step = 0;
         let aiSpeaking = false;
-        let ignoreAudio = false;
 
         function toggleVoice() {
             if (ui.widget.style.display === 'none') {
@@ -284,6 +283,7 @@
 
         async function startStreaming() {
             try {
+                // Connect to Backend
                 const r = await fetch('/.netlify/functions/deepgram-token');
                 if (!r.ok) throw new Error("Backend Error (Are you running locally?)");
                 const data = await r.json();
@@ -293,12 +293,7 @@
                 
                 socket.onopen = () => {
                     mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
-                    // HARD MUTE: Do not send audio if AI is speaking or in mute period
-                    mediaRecorder.addEventListener('dataavailable', e => { 
-                        if (e.data.size > 0 && !aiSpeaking && !ignoreAudio) { 
-                            socket.send(e.data); 
-                        }
-                    });
+                    mediaRecorder.addEventListener('dataavailable', e => { if (e.data.size > 0) socket.send(e.data); });
                     mediaRecorder.start(250);
                     
                     step = 0;
@@ -307,6 +302,7 @@
                 };
 
                 socket.onmessage = (msg) => {
+                    if (aiSpeaking) return;
                     const rec = JSON.parse(msg.data);
                     const trans = rec.channel?.alternatives?.[0]?.transcript;
                     if (rec.is_final && trans && trans.trim().length > 1) {
@@ -362,18 +358,30 @@
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(text);
             
-            // Warm Female Voice
+            // Warm Female Voice Selector
             const voices = window.speechSynthesis.getVoices();
-            const femaleVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Zira') || v.name.toLowerCase().includes('female'));
+            const femaleVoice = voices.find(v => 
+                v.name.includes('Google US English') || 
+                v.name.includes('Zira') || 
+                v.name.includes('Samantha') ||
+                v.name.toLowerCase().includes('female')
+            );
             if (femaleVoice) { u.voice = femaleVoice; u.pitch = 1.0; }
 
+            // PAUSE RECORDING WHILE SPEAKING TO PREVENT ECHO
+            if (mediaRecorder && mediaRecorder.state === "recording") {
+                mediaRecorder.pause();
+            }
             aiSpeaking = true;
-            ignoreAudio = true; // Block Mic
-            
+
             u.onend = () => { 
                 aiSpeaking = false; 
-                // EXTENDED MUTE: Wait 2.0 seconds after speech ends
-                setTimeout(() => { ignoreAudio = false; }, 2000); 
+                // Wait 2 seconds before resuming recording (Deaf Period)
+                setTimeout(() => {
+                    if (mediaRecorder && mediaRecorder.state === "paused") {
+                        mediaRecorder.resume();
+                    }
+                }, 2000); 
             };
             window.speechSynthesis.speak(u);
         }
