@@ -59,19 +59,19 @@
             </div>
             
             <div class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-300">
-                <a href="#services" class="hover:text-brand-accent transition">Solutions</a>
-                <a href="#benefits" class="hover:text-brand-accent transition">Why Us</a>
-                <a href="index.html" class="text-xs text-gray-500 hover:text-gray-300">Residential Services</a>
+                <a href="#services" class="hover:text-brand-accent transition cursor-pointer relative z-50">Solutions</a>
+                <a href="#benefits" class="hover:text-brand-accent transition cursor-pointer relative z-50">Why Us</a>
+                <a href="index.html" class="text-xs text-gray-500 hover:text-gray-300 cursor-pointer relative z-50">Residential Services</a>
             </div>
 
-            <button onclick="toggleVoice()" class="px-4 py-2 rounded bg-brand-card border border-white/10 hover:border-brand-accent/60 transition text-sm font-semibold flex items-center gap-2">
+            <button onclick="toggleVoice()" class="px-4 py-2 rounded bg-brand-card border border-white/10 hover:border-brand-accent/60 transition text-sm font-semibold flex items-center gap-2 cursor-pointer relative z-50">
                 <i class="fa-solid fa-microphone text-brand-accent"></i> 
                 <span>Voice Assist</span>
             </button>
         </div>
     </nav>
 
-    <header class="pt-20 pb-24 relative overflow-hidden">
+    <header class="pt-24 pb-24 relative overflow-hidden">
         <div class="container mx-auto px-4 text-center md:text-left grid md:grid-cols-2 gap-12 items-center">
             
             <div>
@@ -83,7 +83,7 @@
                     We provide comprehensive IT infrastructure management, workstation deployment, and network configuration for small to mid-sized businesses.
                 </p>
                 <div class="mt-8">
-                    <a href="#contact" class="px-8 py-4 rounded bg-brand-accent text-brand-bg font-bold hover:bg-white transition text-center inline-block">
+                    <a href="#contact" class="px-8 py-4 rounded bg-brand-accent text-brand-bg font-bold hover:bg-white transition text-center inline-block cursor-pointer relative z-20">
                         Request Consultation
                     </a>
                 </div>
@@ -133,7 +133,7 @@
         </div>
     </section>
 
-    <section id="services" class="py-20 border-t border-gray-800">
+    <section id="services" class="py-20 border-t border-gray-800 scroll-mt-24">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-3xl font-bold text-white mb-4">Core Competencies</h2>
@@ -165,7 +165,7 @@
         </div>
     </section>
 
-    <section id="benefits" class="py-20 border-t border-gray-800 bg-black/20">
+    <section id="benefits" class="py-20 border-t border-gray-800 bg-black/20 scroll-mt-24">
         <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
             <div>
                 <h2 class="text-3xl font-bold text-white mb-6">Why Partner With Us?</h2>
@@ -247,7 +247,7 @@
         </div>
         
         <div class="h-24 overflow-y-auto bg-black/40 rounded p-2 text-xs text-gray-300 border border-white/5 mb-3" id="voice-transcript">
-            Status: Ready
+            Status: Ready.
         </div>
 
         <div class="flex gap-2">
@@ -274,40 +274,34 @@
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition;
         let step = 0;
-        let isAiSpeaking = false;
-        let typingTimeout;
+        let isSpeaking = false;
 
         if (SpeechRecognition) {
             recognition = new SpeechRecognition();
-            recognition.continuous = true;
+            recognition.continuous = false; // Turn-Taking Mode
             recognition.interimResults = false;
             recognition.lang = 'en-US';
 
-            recognition.onresult = (event) => {
-                if (isAiSpeaking) return; // Soft Mute
+            recognition.onstart = () => { updateStatus("Listening", "green"); };
+            recognition.onend = () => { updateStatus("Processing", "gray"); };
 
-                const lastResult = event.results[event.results.length - 1];
-                const text = lastResult[0].transcript;
-                
+            recognition.onresult = (event) => {
+                if(isSpeaking) return;
+                const text = event.results[0][0].transcript;
                 ui.transcript.innerText = `You: "${text}"`;
                 processLogic(text);
-            };
-
-            recognition.onerror = (event) => {
-                if(event.error !== 'no-speech') ui.transcript.innerText = "Error: " + event.error;
             };
         } else {
             ui.transcript.innerText = "Error: Browser not supported.";
         }
 
-        // SMART TYPING: If user types, disable voice logic temporarily
+        // Typing stops voice
         function setupTyping() {
             [ui.name, ui.company, ui.phone, ui.email, ui.msg].forEach(el => {
                 el.addEventListener('input', () => {
-                    isAiSpeaking = true; // Fake flag to stop voice processing
+                    isSpeaking = true;
                     window.speechSynthesis.cancel();
-                    clearTimeout(typingTimeout);
-                    typingTimeout = setTimeout(() => { isAiSpeaking = false; }, 2000);
+                    if(recognition) recognition.stop();
                 });
             });
         }
@@ -317,9 +311,7 @@
             if (ui.widget.style.display === 'none') {
                 ui.widget.style.setProperty('display', 'block', 'important');
                 if (recognition) {
-                    try { recognition.start(); } catch(e){}
                     step = 0;
-                    updateStatus("Listening", "green");
                     speak("Hello. I can assist with scheduling your business consultation. First, what is your contact name?");
                     ui.name.style.borderColor = '#38bdf8';
                 }
@@ -327,7 +319,6 @@
                 ui.widget.style.setProperty('display', 'none', 'important');
                 window.speechSynthesis.cancel();
                 if(recognition) recognition.stop();
-                updateStatus("Off", "gray");
             }
         }
 
@@ -376,8 +367,9 @@
         function speak(text) {
             ui.transcript.innerText = `AI: "${text}"`;
             window.speechSynthesis.cancel();
+            if(recognition) recognition.stop();
             
-            isAiSpeaking = true;
+            isSpeaking = true;
             updateStatus("Speaking...", "red");
 
             const u = new SpeechSynthesisUtterance(text);
@@ -386,8 +378,11 @@
             if (femaleVoice) { u.voice = femaleVoice; u.pitch = 1.0; }
 
             u.onend = () => { 
-                isAiSpeaking = false; 
-                updateStatus("Listening", "green");
+                isSpeaking = false; 
+                // Auto-Restart listening after silence
+                if(ui.widget.style.display !== 'none' && step < 5) {
+                    setTimeout(() => { try { recognition.start(); } catch(e){} }, 500);
+                }
             };
             window.speechSynthesis.speak(u);
         }

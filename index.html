@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <title>Computer Repair West LA | Home & Small Business Support</title>
     <meta name="description" content="Fast, reliable computer repair in West LA. We fix laptops, Macs, PCs, WiFi, and printers. On-site or remote support. Call (310) 850-8093." />
     <link rel="canonical" href="https://get-techsupportla.com/" />
@@ -48,7 +49,7 @@
 </head>
 <body id="top" class="bg-brand-bg text-white">
 
-    <nav class="sticky top-0 z-[1000] backdrop-blur bg-brand-bg/80 border-b border-white/5">
+    <nav class="sticky top-0 z-50 backdrop-blur bg-brand-bg/90 border-b border-white/5">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-brand-card border border-white/10 grid place-items-center shadow-glow">
@@ -59,21 +60,24 @@
                     <div class="text-xs text-brand-muted hidden sm:block">On-site + Remote Support</div>
                 </div>
             </div>
+            
             <div class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-300">
-                <a href="#services" class="hover:text-brand-accent transition">Services</a>
-                <a href="#reviews" class="hover:text-brand-accent transition">Reviews</a>
-                <a href="#faq" class="hover:text-brand-accent transition">FAQ</a>
-                <a href="business.html" class="relative z-50 text-brand-accent hover:text-white transition border border-brand-accent/30 px-3 py-1 rounded cursor-pointer">For Businesses</a>
+                <a href="#services" class="hover:text-brand-accent transition cursor-pointer">Services</a>
+                <a href="#reviews" class="hover:text-brand-accent transition cursor-pointer">Reviews</a>
+                <a href="#faq" class="hover:text-brand-accent transition cursor-pointer">FAQ</a>
+                <a href="business.html" class="text-brand-accent hover:text-white transition border border-brand-accent/30 px-3 py-1 rounded cursor-pointer">For Businesses</a>
             </div>
-            <button onclick="toggleVoice()" class="px-4 py-2 rounded-lg bg-brand-card border border-white/10 hover:border-brand-accent/60 transition text-sm font-semibold flex items-center gap-2">
+
+            <button onclick="toggleVoice()" class="px-4 py-2 rounded-lg bg-brand-card border border-white/10 hover:border-brand-accent/60 transition text-sm font-semibold flex items-center gap-2 cursor-pointer">
                 <i class="fa-solid fa-microphone text-brand-accent"></i> 
                 <span>Voice Assist</span>
             </button>
         </div>
     </nav>
 
-    <header class="pt-16 pb-20 relative overflow-hidden">
+    <header class="pt-24 pb-20 relative overflow-hidden">
         <div class="container mx-auto px-4 text-center md:text-left grid md:grid-cols-2 gap-10 items-center">
+            
             <div>
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-card border border-white/10 text-xs text-brand-accent mb-6">
                     <i class="fa-solid fa-house-laptop"></i> Residential & Small Business Support
@@ -84,6 +88,7 @@
                     <a href="tel:13108508093" class="px-7 py-4 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition"><i class="fa-solid fa-phone"></i> (310) 850-8093</a>
                 </div>
             </div>
+
             <div class="bg-brand-card border border-white/10 rounded-2xl p-8 shadow-glow relative z-10 text-left">
                 <h2 class="text-2xl font-bold">Tell Us What's Broken</h2>
                 <p class="text-sm text-gray-400 mt-1">Use Voice Assist to fill this out instantly.</p>
@@ -99,40 +104,53 @@
         </div>
     </header>
 
-    <section id="services" class="py-20 border-t border-gray-800 bg-black/20">
+    <section id="services" class="py-20 border-t border-gray-800 bg-black/20 scroll-mt-24">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-bold text-white mb-2">Services</h2>
                 <p class="text-gray-400">Comprehensive tech support for homes and small businesses in West LA.</p>
             </div>
+            
             <div class="grid md:grid-cols-3 gap-6 text-left">
-                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
-                    <i class="fas fa-microchip text-brand-accent text-3xl mb-4"></i>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition duration-300 group">
+                    <div class="w-12 h-12 bg-brand-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-brand-accent/20 transition">
+                        <i class="fas fa-microchip text-brand-accent text-2xl"></i>
+                    </div>
                     <h3 class="font-bold text-xl mb-2">PC Hardware Support</h3>
                     <p class="text-gray-400 text-sm">Diagnosis and repair of failing components, hard drive replacements, and memory upgrades.</p>
                 </div>
-                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
-                    <i class="fas fa-wifi text-brand-accent text-3xl mb-4"></i>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition duration-300 group">
+                    <div class="w-12 h-12 bg-brand-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-brand-accent/20 transition">
+                        <i class="fas fa-wifi text-brand-accent text-2xl"></i>
+                    </div>
                     <h3 class="font-bold text-xl mb-2">Wi-Fi & Network</h3>
                     <p class="text-gray-400 text-sm">Router setup, mesh system installation, fixing dead zones, and solving connection drops.</p>
                 </div>
-                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
-                    <i class="fas fa-shield-virus text-brand-accent text-3xl mb-4"></i>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition duration-300 group">
+                    <div class="w-12 h-12 bg-brand-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-brand-accent/20 transition">
+                        <i class="fas fa-shield-virus text-brand-accent text-2xl"></i>
+                    </div>
                     <h3 class="font-bold text-xl mb-2">Virus Removal</h3>
                     <p class="text-gray-400 text-sm">Deep cleaning of infected systems, removing pop-ups, and installing robust security software.</p>
                 </div>
-                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
-                    <i class="fas fa-gauge-high text-brand-accent text-3xl mb-4"></i>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition duration-300 group">
+                    <div class="w-12 h-12 bg-brand-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-brand-accent/20 transition">
+                        <i class="fas fa-gauge-high text-brand-accent text-2xl"></i>
+                    </div>
                     <h3 class="font-bold text-xl mb-2">System Optimization</h3>
                     <p class="text-gray-400 text-sm">Speeding up slow computers, removing bloatware, and optimizing start-up times.</p>
                 </div>
-                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
-                    <i class="fas fa-code text-brand-accent text-3xl mb-4"></i>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition duration-300 group">
+                    <div class="w-12 h-12 bg-brand-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-brand-accent/20 transition">
+                        <i class="fas fa-code text-brand-accent text-2xl"></i>
+                    </div>
                     <h3 class="font-bold text-xl mb-2">Web Design & Dev</h3>
                     <p class="text-gray-400 text-sm">Custom website design and development for personal use or small businesses.</p>
                 </div>
-                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
-                    <i class="fab fa-windows text-brand-accent text-3xl mb-4"></i>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition duration-300 group">
+                    <div class="w-12 h-12 bg-brand-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-brand-accent/20 transition">
+                        <i class="fab fa-windows text-brand-accent text-2xl"></i>
+                    </div>
                     <h3 class="font-bold text-xl mb-2">Windows & OS Support</h3>
                     <p class="text-gray-400 text-sm">Troubleshooting Windows errors, blue screens, updates, and driver issues.</p>
                 </div>
@@ -140,7 +158,7 @@
         </div>
     </section>
 
-    <section id="reviews" class="py-20 border-t border-gray-800">
+    <section id="reviews" class="py-20 border-t border-gray-800 scroll-mt-24">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-10">Client Reviews</h2>
             <div class="grid md:grid-cols-2 gap-6">
@@ -196,7 +214,7 @@
         </div>
     </section>
 
-    <section id="faq" class="py-20 border-t border-gray-800 bg-black/20">
+    <section id="faq" class="py-20 border-t border-gray-800 bg-black/20 scroll-mt-24">
         <div class="container mx-auto px-4 max-w-3xl">
             <h2 class="text-3xl font-bold text-center mb-10">Common Questions</h2>
             <div class="space-y-4">
@@ -204,22 +222,10 @@
                     <summary class="font-bold text-lg group-hover:text-brand-accent transition">Do you come to my house?</summary>
                     <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Yes! I offer on-site support in West LA, Santa Monica, Culver City, and surrounding areas.</p>
                 </details>
-                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
-                    <summary class="font-bold text-lg group-hover:text-brand-accent transition">What are your hours?</summary>
-                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Open Daily 9am – 10pm. Sunday 10am – 9pm.</p>
-                </details>
-                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
-                    <summary class="font-bold text-lg group-hover:text-brand-accent transition">Do you fix Macs and PCs?</summary>
-                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Yes. Whether you have a Windows laptop, a desktop gaming PC, a MacBook, or an iMac, I can fix it.</p>
-                </details>
-                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
-                    <summary class="font-bold text-lg group-hover:text-brand-accent transition">How much does it cost?</summary>
-                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">I offer fair, transparent pricing. Fill out the form above with your issue, and I will contact you quickly with an estimate.</p>
-                </details>
-                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
-                    <summary class="font-bold text-lg group-hover:text-brand-accent transition">Is my data safe?</summary>
-                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Absolutely. I prioritize data integrity and security in every repair, ensuring your files are protected.</p>
-                </details>
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group"><summary class="font-bold text-lg group-hover:text-brand-accent transition">What are your hours?</summary><p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Open Daily 9am – 10pm. Sunday 10am – 9pm.</p></details>
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group"><summary class="font-bold text-lg group-hover:text-brand-accent transition">Do you fix Macs and PCs?</summary><p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Yes. Whether you have a Windows laptop, a desktop gaming PC, a MacBook, or an iMac, I can fix it.</p></details>
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group"><summary class="font-bold text-lg group-hover:text-brand-accent transition">How much does it cost?</summary><p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">I offer fair, transparent pricing. Fill out the form above with your issue, and I will contact you quickly with an estimate.</p></details>
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group"><summary class="font-bold text-lg group-hover:text-brand-accent transition">Is my data safe?</summary><p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Absolutely. I prioritize data integrity and security in every repair, ensuring your files are protected.</p></details>
             </div>
         </div>
     </section>
@@ -238,7 +244,7 @@
         </div>
         
         <div class="h-24 overflow-y-auto bg-black/40 rounded p-2 text-xs text-gray-300 border border-white/5 mb-3" id="voice-transcript">
-            Status: Ready to help.
+            Status: Ready.
         </div>
 
         <div class="flex gap-2">
@@ -249,6 +255,7 @@
 
     <script>
         document.getElementById('year').innerText = new Date().getFullYear();
+        
         const ui = {
             widget: document.getElementById('voice-widget'),
             transcript: document.getElementById('voice-transcript'),
@@ -260,48 +267,37 @@
             msg: document.getElementById('inp-msg')
         };
         
-        // Native Browser Speech API
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition;
         let step = 0;
-        let isAiSpeaking = false;
-        let typingTimeout;
+        let isSpeaking = false;
 
-        // Initialize Speech Recognition
         if (SpeechRecognition) {
             recognition = new SpeechRecognition();
-            recognition.continuous = true; // Keep listening
+            recognition.continuous = false; // Turn-Taking Mode
             recognition.interimResults = false;
             recognition.lang = 'en-US';
 
-            recognition.onresult = (event) => {
-                // SOFT MUTE: If AI is speaking, ignore result.
-                if (isAiSpeaking) return;
+            recognition.onstart = () => { updateStatus("Listening", "green"); };
+            recognition.onend = () => { updateStatus("Processing", "gray"); };
 
-                const lastResult = event.results[event.results.length - 1];
-                const text = lastResult[0].transcript;
-                
+            recognition.onresult = (event) => {
+                if(isSpeaking) return;
+                const text = event.results[0][0].transcript;
                 ui.transcript.innerText = `You: "${text}"`;
                 processLogic(text);
-            };
-
-            recognition.onerror = (event) => {
-                if(event.error !== 'no-speech') {
-                    ui.transcript.innerText = "Error: " + event.error;
-                }
             };
         } else {
             ui.transcript.innerText = "Error: Browser not supported.";
         }
 
-        // SMART TYPING: If user types, disable voice logic temporarily
+        // Typing stops voice
         function setupTyping() {
             [ui.name, ui.phone, ui.email, ui.msg].forEach(el => {
                 el.addEventListener('input', () => {
-                    isAiSpeaking = true; // Fake flag to stop voice processing
+                    isSpeaking = true;
                     window.speechSynthesis.cancel();
-                    clearTimeout(typingTimeout);
-                    typingTimeout = setTimeout(() => { isAiSpeaking = false; }, 2000);
+                    if(recognition) recognition.stop();
                 });
             });
         }
@@ -311,9 +307,7 @@
             if (ui.widget.style.display === 'none') {
                 ui.widget.style.setProperty('display', 'block', 'important');
                 if (recognition) {
-                    try { recognition.start(); } catch(e){}
                     step = 0;
-                    updateStatus("Listening", "green");
                     speak("Hi! I can help you fill this form. First, what is your name?");
                     ui.name.style.borderColor = '#2DD4BF';
                 }
@@ -321,7 +315,6 @@
                 ui.widget.style.setProperty('display', 'none', 'important');
                 window.speechSynthesis.cancel();
                 if(recognition) recognition.stop();
-                updateStatus("Off", "gray");
             }
         }
 
@@ -363,9 +356,9 @@
         function speak(text) {
             ui.transcript.innerText = `AI: "${text}"`;
             window.speechSynthesis.cancel();
+            if(recognition) recognition.stop();
             
-            // Flag AI is speaking (Soft Mute)
-            isAiSpeaking = true;
+            isSpeaking = true;
             updateStatus("Speaking...", "red");
 
             const u = new SpeechSynthesisUtterance(text);
@@ -374,8 +367,11 @@
             if (femaleVoice) { u.voice = femaleVoice; u.pitch = 1.0; }
 
             u.onend = () => { 
-                isAiSpeaking = false; 
-                updateStatus("Listening", "green");
+                isSpeaking = false; 
+                // Auto-Restart listening after silence
+                if(ui.widget.style.display !== 'none' && step < 4) {
+                    setTimeout(() => { try { recognition.start(); } catch(e){} }, 500);
+                }
             };
             window.speechSynthesis.speak(u);
         }
