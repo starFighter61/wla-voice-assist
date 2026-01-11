@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
     <title>Computer Repair West LA | Home & Small Business Support</title>
     <meta name="description" content="Fast, reliable computer repair in West LA. We fix laptops, Macs, PCs, WiFi, and printers. On-site or remote support. Call (310) 850-8093." />
     <link rel="canonical" href="https://get-techsupportla.com/" />
@@ -49,7 +48,7 @@
 </head>
 <body id="top" class="bg-brand-bg text-white">
 
-    <nav class="sticky top-0 z-50 backdrop-blur bg-brand-bg/90 border-b border-white/5">
+    <nav class="sticky top-0 z-[1000] backdrop-blur bg-brand-bg/80 border-b border-white/5">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-brand-card border border-white/10 grid place-items-center shadow-glow">
@@ -65,7 +64,7 @@
                 <a href="#services" class="hover:text-brand-accent transition cursor-pointer">Services</a>
                 <a href="#reviews" class="hover:text-brand-accent transition cursor-pointer">Reviews</a>
                 <a href="#faq" class="hover:text-brand-accent transition cursor-pointer">FAQ</a>
-                <a href="business.html" class="text-brand-accent hover:text-white transition border border-brand-accent/30 px-3 py-1 rounded cursor-pointer">For Businesses</a>
+                <a href="business.html" class="relative z-50 text-brand-accent hover:text-white transition border border-brand-accent/30 px-3 py-1 rounded cursor-pointer">For Businesses</a>
             </div>
 
             <button onclick="toggleVoice()" class="px-4 py-2 rounded-lg bg-brand-card border border-white/10 hover:border-brand-accent/60 transition text-sm font-semibold flex items-center gap-2 cursor-pointer">
@@ -75,7 +74,7 @@
         </div>
     </nav>
 
-    <header class="pt-24 pb-20 relative overflow-hidden">
+    <header class="pt-16 pb-20 relative overflow-hidden">
         <div class="container mx-auto px-4 text-center md:text-left grid md:grid-cols-2 gap-10 items-center">
             
             <div>
@@ -112,45 +111,33 @@
             </div>
             
             <div class="grid md:grid-cols-3 gap-6 text-left">
-                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition duration-300 group">
-                    <div class="w-12 h-12 bg-brand-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-brand-accent/20 transition">
-                        <i class="fas fa-microchip text-brand-accent text-2xl"></i>
-                    </div>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
+                    <i class="fas fa-microchip text-brand-accent text-3xl mb-4"></i>
                     <h3 class="font-bold text-xl mb-2">PC Hardware Support</h3>
                     <p class="text-gray-400 text-sm">Diagnosis and repair of failing components, hard drive replacements, and memory upgrades.</p>
                 </div>
-                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition duration-300 group">
-                    <div class="w-12 h-12 bg-brand-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-brand-accent/20 transition">
-                        <i class="fas fa-wifi text-brand-accent text-2xl"></i>
-                    </div>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
+                    <i class="fas fa-wifi text-brand-accent text-3xl mb-4"></i>
                     <h3 class="font-bold text-xl mb-2">Wi-Fi & Network</h3>
                     <p class="text-gray-400 text-sm">Router setup, mesh system installation, fixing dead zones, and solving connection drops.</p>
                 </div>
-                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition duration-300 group">
-                    <div class="w-12 h-12 bg-brand-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-brand-accent/20 transition">
-                        <i class="fas fa-shield-virus text-brand-accent text-2xl"></i>
-                    </div>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
+                    <i class="fas fa-shield-virus text-brand-accent text-3xl mb-4"></i>
                     <h3 class="font-bold text-xl mb-2">Virus Removal</h3>
                     <p class="text-gray-400 text-sm">Deep cleaning of infected systems, removing pop-ups, and installing robust security software.</p>
                 </div>
-                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition duration-300 group">
-                    <div class="w-12 h-12 bg-brand-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-brand-accent/20 transition">
-                        <i class="fas fa-gauge-high text-brand-accent text-2xl"></i>
-                    </div>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
+                    <i class="fas fa-gauge-high text-brand-accent text-3xl mb-4"></i>
                     <h3 class="font-bold text-xl mb-2">System Optimization</h3>
                     <p class="text-gray-400 text-sm">Speeding up slow computers, removing bloatware, and optimizing start-up times.</p>
                 </div>
-                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition duration-300 group">
-                    <div class="w-12 h-12 bg-brand-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-brand-accent/20 transition">
-                        <i class="fas fa-code text-brand-accent text-2xl"></i>
-                    </div>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
+                    <i class="fas fa-code text-brand-accent text-3xl mb-4"></i>
                     <h3 class="font-bold text-xl mb-2">Web Design & Dev</h3>
                     <p class="text-gray-400 text-sm">Custom website design and development for personal use or small businesses.</p>
                 </div>
-                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition duration-300 group">
-                    <div class="w-12 h-12 bg-brand-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-brand-accent/20 transition">
-                        <i class="fab fa-windows text-brand-accent text-2xl"></i>
-                    </div>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
+                    <i class="fab fa-windows text-brand-accent text-3xl mb-4"></i>
                     <h3 class="font-bold text-xl mb-2">Windows & OS Support</h3>
                     <p class="text-gray-400 text-sm">Troubleshooting Windows errors, blue screens, updates, and driver issues.</p>
                 </div>
@@ -291,8 +278,9 @@
             ui.transcript.innerText = "Error: Browser not supported.";
         }
 
-        // Typing stops voice
+        // Smart Typing: Stop AI if user types
         function setupTyping() {
+            // REMOVED 'ui.company' from this list to prevent crash
             [ui.name, ui.phone, ui.email, ui.msg].forEach(el => {
                 el.addEventListener('input', () => {
                     isSpeaking = true;
@@ -368,7 +356,6 @@
 
             u.onend = () => { 
                 isSpeaking = false; 
-                // Auto-Restart listening after silence
                 if(ui.widget.style.display !== 'none' && step < 4) {
                     setTimeout(() => { try { recognition.start(); } catch(e){} }, 500);
                 }
