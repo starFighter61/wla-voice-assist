@@ -270,7 +270,7 @@
             widget: document.getElementById('voice-widget'),
             transcript: document.getElementById('voice-transcript'),
             name: document.getElementById('inp-name'),
-            company: document.getElementById('inp-company'), // Now linked correctly
+            company: document.getElementById('inp-company'),
             phone: document.getElementById('inp-phone'),
             email: document.getElementById('inp-email'),
             msg: document.getElementById('inp-msg')
@@ -278,6 +278,7 @@
         
         let socket, mediaRecorder, step = 0;
         let aiSpeaking = false;
+        let ignoreAudio = false; // FIX: Prevents echo loop
 
         function toggleVoice() {
             if (ui.widget.style.display === 'none') {
@@ -291,7 +292,6 @@
 
         async function startStreaming() {
             try {
-                // Connect to Backend
                 const r = await fetch('/.netlify/functions/deepgram-token');
                 if (!r.ok) throw new Error("Backend connection failed.");
                 const data = await r.json();
@@ -310,7 +310,7 @@
                 };
 
                 socket.onmessage = (msg) => {
-                    if (aiSpeaking) return;
+                    if (aiSpeaking || ignoreAudio) return; // FIX: Echo Cancellation
                     const rec = JSON.parse(msg.data);
                     const trans = rec.channel?.alternatives?.[0]?.transcript;
                     if (rec.is_final && trans && trans.trim().length > 1) {
@@ -376,7 +376,12 @@
             if (femaleVoice) { u.voice = femaleVoice; u.pitch = 1.0; }
 
             aiSpeaking = true;
-            u.onend = () => { aiSpeaking = false; };
+            ignoreAudio = true; // Block Mic
+            
+            u.onend = () => { 
+                aiSpeaking = false; 
+                setTimeout(() => { ignoreAudio = false; }, 1500); // 1.5s deaf period
+            };
             window.speechSynthesis.speak(u);
         }
         

@@ -155,10 +155,7 @@
                     <p class="text-gray-300 italic text-sm">"Dan is one of a kind! Brilliant, personable, and available! Honest and fair... There was an issue with my laptop that he could not resolve, but unlike many, he knew where to refer me... Honest and fair."</p>
                     <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
                         <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">S</div> 
-                        <div>
-                            <div class="font-bold">Sherwyn D.</div>
-                            <div class="text-gray-500 font-normal">Santa Monica</div>
-                        </div>
+                        <div><div class="font-bold">Sherwyn D.</div><div class="text-gray-500 font-normal">Santa Monica</div></div>
                     </div>
                 </div>
                 <div class="bg-brand-card p-6 rounded-xl border border-white/5 hover:border-brand-accent/30 transition">
@@ -166,10 +163,7 @@
                     <p class="text-gray-300 italic text-sm">"Dan brought my laptop back to life in just a few hours. I dropped it off at 2 pm on a Sunday and I came to pick it up a few hours later... Reasonably priced and tremendously convenient."</p>
                     <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
                         <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">K</div> 
-                        <div>
-                            <div class="font-bold">Kathie N.</div>
-                            <div class="text-gray-500 font-normal">West LA</div>
-                        </div>
+                        <div><div class="font-bold">Kathie N.</div><div class="text-gray-500 font-normal">West LA</div></div>
                     </div>
                 </div>
                 <div class="bg-brand-card p-6 rounded-xl border border-white/5 hover:border-brand-accent/30 transition">
@@ -201,10 +195,7 @@
                     <p class="text-gray-300 italic text-sm">"I highly recommend Dan and his company. Very knowledgeable, knew all the right questions to ask... His prices are very reasonable. My computer behaves like its brand new!"</p>
                     <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
                         <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">C</div> 
-                        <div>
-                            <div class="font-bold">Carol M.</div>
-                            <div class="text-gray-500 font-normal">Marina del Rey</div>
-                        </div>
+                        <div><div class="font-bold">Carol M.</div><div class="text-gray-500 font-normal">Marina del Rey</div></div>
                     </div>
                 </div>
             </div>
@@ -279,6 +270,7 @@
         
         let socket, mediaRecorder, step = 0;
         let aiSpeaking = false;
+        let ignoreAudio = false; // NEW: Prevents echo loop
 
         function toggleVoice() {
             if (ui.widget.style.display === 'none') {
@@ -292,7 +284,6 @@
 
         async function startStreaming() {
             try {
-                // Connect to Backend
                 const r = await fetch('/.netlify/functions/deepgram-token');
                 if (!r.ok) throw new Error("Backend Error (Are you running locally?)");
                 const data = await r.json();
@@ -307,11 +298,11 @@
                     
                     step = 0;
                     speak("Hi! I can help you fill this form. First, what is your name?");
-                    ui.name.style.borderColor = '#2DD4BF'; // Highlight Name
+                    ui.name.style.borderColor = '#2DD4BF';
                 };
 
                 socket.onmessage = (msg) => {
-                    if (aiSpeaking) return;
+                    if (aiSpeaking || ignoreAudio) return; // FIX: Ignore echoes
                     const rec = JSON.parse(msg.data);
                     const trans = rec.channel?.alternatives?.[0]?.transcript;
                     if (rec.is_final && trans && trans.trim().length > 1) {
@@ -333,6 +324,7 @@
             const lower = text.toLowerCase();
             if (lower.includes("cancel")) { toggleVoice(); return; }
 
+            // MANUAL OVERRIDE CHECK: Only fill if empty or text looks like an answer
             if (step === 0) { // Name
                 ui.name.value = text;
                 ui.name.style.borderColor = '#2DD4BF';
@@ -367,18 +359,19 @@
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(text);
             
-            // Warm Female Voice Selector
+            // Warm Female Voice
             const voices = window.speechSynthesis.getVoices();
-            const femaleVoice = voices.find(v => 
-                v.name.includes('Google US English') || 
-                v.name.includes('Zira') || 
-                v.name.includes('Samantha') ||
-                v.name.toLowerCase().includes('female')
-            );
+            const femaleVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Zira') || v.name.toLowerCase().includes('female'));
             if (femaleVoice) { u.voice = femaleVoice; u.pitch = 1.0; }
 
             aiSpeaking = true;
-            u.onend = () => { aiSpeaking = false; };
+            ignoreAudio = true; // Block mic input
+            
+            u.onend = () => { 
+                aiSpeaking = false; 
+                // Wait 1.5 seconds after speaking before listening again
+                setTimeout(() => { ignoreAudio = false; }, 1500);
+            };
             window.speechSynthesis.speak(u);
         }
         
