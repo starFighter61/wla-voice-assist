@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>West LA Computer Expert | On-Site & Remote Support</title>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-1055117854"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-1055117854');
+    </script>
+
+    <title>West LA Computer Expert | Fast On-Site & Remote PC Support</title>
     <meta name="description" content="West LA Computer Expert offers on-site and remote PC & network support. Call (310) 850-8093." />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -11,29 +20,17 @@
             theme: {
                 extend: {
                     colors: { brand: { bg: '#0B1220', card: '#111A2E', accent: '#2DD4BF', muted: '#94A3B8' } },
-                    boxShadow: { glow: '0 0 40px rgba(45, 212, 191, 0.15)' },
-                    backgroundImage: {
-                        'hero-pattern': "url('https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=1920&q=80')",
-                        'tech-pattern': "url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80')"
-                    }
+                    boxShadow: { glow: '0 0 40px rgba(45, 212, 191, 0.15)' }
                 }
             }
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <style>
-        body { font-family: sans-serif; } 
-        details > summary { list-style: none; } 
-        details > summary::-webkit-details-marker { display: none; }
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #0B1220; }
-        ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 5px; }
-        ::-webkit-scrollbar-thumb:hover { background: #2DD4BF; }
-    </style>
+    <style>body { font-family: sans-serif; }</style>
 </head>
 <body id="top" class="bg-brand-bg text-white">
 
-    <nav class="sticky top-0 z-50 backdrop-blur-md bg-brand-bg/80 border-b border-white/5">
+    <nav class="sticky top-0 z-50 backdrop-blur bg-brand-bg/80 border-b border-white/5">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-brand-card border border-white/10 grid place-items-center shadow-glow">
@@ -44,12 +41,14 @@
                     <div class="text-xs text-brand-muted hidden sm:block">On-site + Remote Support</div>
                 </div>
             </div>
+            
             <div class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-300">
-                <a href="#top" class="text-brand-accent hover:text-white transition">Home</a>
+                <a href="#top" class="hover:text-brand-accent transition">Home</a>
                 <a href="#services" class="hover:text-brand-accent transition">Services</a>
                 <a href="#reviews" class="hover:text-brand-accent transition">Reviews</a>
                 <a href="#faq" class="hover:text-brand-accent transition">FAQ</a>
             </div>
+
             <button onclick="toggleVoice()" class="px-4 py-2 rounded-lg bg-brand-card border border-white/10 hover:border-brand-accent/60 transition text-sm font-semibold flex items-center gap-2">
                 <i class="fa-solid fa-microphone text-brand-accent"></i> 
                 <span>Voice Assist</span>
@@ -57,212 +56,161 @@
         </div>
     </nav>
 
-    <header class="relative pt-24 pb-32 overflow-hidden">
-        <div class="absolute inset-0 bg-hero-pattern bg-cover bg-center bg-no-repeat"></div>
-        <div class="absolute inset-0 bg-brand-bg/90"></div>
-        <div class="container mx-auto px-4 relative z-10 grid md:grid-cols-2 gap-12 items-center">
-            <div class="text-center md:text-left">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-brand-accent mb-6 backdrop-blur">
-                    <i class="fa-solid fa-house"></i> Local West LA Tech Support
+    <header class="pt-16 pb-20 relative overflow-hidden">
+        <div class="container mx-auto px-4 text-center md:text-left grid md:grid-cols-2 gap-10 items-center">
+            
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-card border border-white/10 text-xs text-brand-accent mb-6">
+                    <i class="fa-solid fa-house-laptop"></i> Local West LA Tech Support
                 </div>
-                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
-                    Fix your computer <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-brand-accent">today</span>.
-                </h1>
-                <p class="text-gray-300 text-lg mt-6 max-w-xl mx-auto md:mx-0 leading-relaxed">
-                    Slow PC? Wi-Fi problems? Printer won't connect? I provide fast, friendly troubleshooting — on-site or remote.
-                </p>
-                <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                    <a href="tel:13108508093" class="px-8 py-4 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition shadow-[0_0_20px_rgba(45,212,191,0.3)] flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-phone"></i> (310) 850-8093
-                    </a>
+                <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">Fix your computer <span class="text-brand-accent">today</span>.</h1>
+                <p class="text-gray-300 text-lg mt-4 max-w-xl">Slow PC? Wi-Fi problems? Printer won't connect? I provide fast, friendly troubleshooting — on-site or remote.</p>
+                <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+                    <a href="tel:13108508093" class="px-7 py-4 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition"><i class="fa-solid fa-phone"></i> (310) 850-8093</a>
                 </div>
             </div>
-            <div class="bg-brand-card/80 backdrop-blur-md border border-white/10 rounded-2xl p-8 shadow-2xl relative">
-                <h2 class="text-2xl font-bold text-white">Tell Us What's Broken</h2>
-                <p class="text-sm text-gray-400 mt-1 mb-4">Use Voice Assist to fill this out instantly.</p>
-                <form id="lead-form" name="lead" method="POST" data-netlify="true" class="space-y-4">
+
+            <div class="bg-brand-card border border-white/10 rounded-2xl p-8 shadow-glow relative z-10 text-left">
+                <h2 class="text-2xl font-bold">Tell Us What's Broken</h2>
+                <p class="text-sm text-gray-400 mt-1">Use Voice Assist to fill this out instantly.</p>
+                <form id="lead-form" name="lead" method="POST" data-netlify="true" class="space-y-4 mt-4">
                     <input type="hidden" name="form-name" value="lead" />
-                    <div class="space-y-4">
-                        <input name="name" id="inp-name" class="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white transition focus:border-brand-accent outline-none" placeholder="Name" />
-                        <input name="phone" id="inp-phone" class="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white transition focus:border-brand-accent outline-none" placeholder="Phone" />
-                        <input name="email" id="inp-email" class="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white transition focus:border-brand-accent outline-none" placeholder="Email" />
-                        <textarea name="message" id="inp-msg" rows="3" class="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white transition focus:border-brand-accent outline-none" placeholder="Describe the issue..."></textarea>
-                    </div>
-                    <button type="submit" class="w-full px-6 py-4 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition shadow-lg mt-2">Send Request</button>
+                    <input name="name" id="inp-name" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Name" />
+                    <input name="phone" id="inp-phone" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Phone" />
+                    <input name="email" id="inp-email" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Email" />
+                    <textarea name="message" id="inp-msg" rows="3" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Describe the issue..."></textarea>
+                    <button type="submit" class="w-full px-6 py-4 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition">Send Request</button>
                 </form>
             </div>
         </div>
     </header>
 
-    <section id="services" class="py-24 border-t border-gray-800 bg-black/20">
+    <section id="services" class="py-20 border-t border-gray-800 bg-black/20">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Services</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">Comprehensive tech support for homes and small businesses in West LA.</p>
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-2">Services</h2>
+                <p class="text-gray-400">Comprehensive tech support for homes and small businesses in West LA.</p>
             </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition group hover:-translate-y-1 duration-300">
-                    <div class="w-14 h-14 rounded-xl bg-brand-bg border border-white/5 flex items-center justify-center mb-6 group-hover:shadow-[0_0_15px_rgba(45,212,191,0.2)] transition">
-                        <i class="fas fa-microchip text-brand-accent text-2xl"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">PC Hardware Support</h3>
-                    <p class="text-gray-400 leading-relaxed">Diagnosis and repair of failing components, hard drive replacements, and memory upgrades.</p>
+            
+            <div class="grid md:grid-cols-3 gap-6 text-left">
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
+                    <i class="fas fa-microchip text-brand-accent text-3xl mb-4"></i>
+                    <h3 class="font-bold text-xl mb-2">PC Hardware Support</h3>
+                    <p class="text-gray-400 text-sm">Diagnosis and repair of failing components, hard drive replacements, and memory upgrades.</p>
                 </div>
-                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition group hover:-translate-y-1 duration-300">
-                    <div class="w-14 h-14 rounded-xl bg-brand-bg border border-white/5 flex items-center justify-center mb-6 group-hover:shadow-[0_0_15px_rgba(45,212,191,0.2)] transition">
-                        <i class="fas fa-wifi text-brand-accent text-2xl"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">Wi-Fi & Network</h3>
-                    <p class="text-gray-400 leading-relaxed">Router setup, mesh system installation, fixing dead zones, and solving connection drops.</p>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
+                    <i class="fas fa-wifi text-brand-accent text-3xl mb-4"></i>
+                    <h3 class="font-bold text-xl mb-2">Wi-Fi & Network</h3>
+                    <p class="text-gray-400 text-sm">Router setup, mesh system installation, fixing dead zones, and solving connection drops.</p>
                 </div>
-                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition group hover:-translate-y-1 duration-300">
-                    <div class="w-14 h-14 rounded-xl bg-brand-bg border border-white/5 flex items-center justify-center mb-6 group-hover:shadow-[0_0_15px_rgba(45,212,191,0.2)] transition">
-                        <i class="fas fa-shield-virus text-brand-accent text-2xl"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">Virus Removal</h3>
-                    <p class="text-gray-400 leading-relaxed">Deep cleaning of infected systems, removing pop-ups, and installing robust security software.</p>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
+                    <i class="fas fa-shield-virus text-brand-accent text-3xl mb-4"></i>
+                    <h3 class="font-bold text-xl mb-2">Virus Removal</h3>
+                    <p class="text-gray-400 text-sm">Deep cleaning of infected systems, removing pop-ups, and installing robust security software.</p>
                 </div>
-                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition group hover:-translate-y-1 duration-300">
-                    <div class="w-14 h-14 rounded-xl bg-brand-bg border border-white/5 flex items-center justify-center mb-6 group-hover:shadow-[0_0_15px_rgba(45,212,191,0.2)] transition">
-                        <i class="fas fa-gauge-high text-brand-accent text-2xl"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">System Optimization</h3>
-                    <p class="text-gray-400 leading-relaxed">Speeding up slow computers, removing bloatware, and optimizing start-up times.</p>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
+                    <i class="fas fa-gauge-high text-brand-accent text-3xl mb-4"></i>
+                    <h3 class="font-bold text-xl mb-2">System Optimization</h3>
+                    <p class="text-gray-400 text-sm">Speeding up slow computers, removing bloatware, and optimizing start-up times.</p>
                 </div>
-                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition group hover:-translate-y-1 duration-300">
-                    <div class="w-14 h-14 rounded-xl bg-brand-bg border border-white/5 flex items-center justify-center mb-6 group-hover:shadow-[0_0_15px_rgba(45,212,191,0.2)] transition">
-                        <i class="fas fa-code text-brand-accent text-2xl"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">Web Design & Dev</h3>
-                    <p class="text-gray-400 leading-relaxed">Custom website design and development for personal use or small businesses.</p>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
+                    <i class="fas fa-code text-brand-accent text-3xl mb-4"></i>
+                    <h3 class="font-bold text-xl mb-2">Web Design & Dev</h3>
+                    <p class="text-gray-400 text-sm">Custom website design and development for personal use or small businesses.</p>
                 </div>
-                <div class="bg-brand-card p-8 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition group hover:-translate-y-1 duration-300">
-                    <div class="w-14 h-14 rounded-xl bg-brand-bg border border-white/5 flex items-center justify-center mb-6 group-hover:shadow-[0_0_15px_rgba(45,212,191,0.2)] transition">
-                        <i class="fab fa-windows text-brand-accent text-2xl"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">Windows & OS Support</h3>
-                    <p class="text-gray-400 leading-relaxed">Troubleshooting Windows errors, blue screens, updates, and driver issues.</p>
+                <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
+                    <i class="fab fa-windows text-brand-accent text-3xl mb-4"></i>
+                    <h3 class="font-bold text-xl mb-2">Windows & OS Support</h3>
+                    <p class="text-gray-400 text-sm">Troubleshooting Windows errors, blue screens, updates, and driver issues.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="relative h-96 bg-fixed bg-center bg-cover bg-tech-pattern flex items-center justify-center">
-        <div class="absolute inset-0 bg-brand-bg/80"></div>
-        <div class="relative z-10 text-center px-4">
-            <h2 class="text-3xl md:text-5xl font-bold mb-4">Fast. Reliable. Local.</h2>
-            <p class="text-xl text-gray-300 max-w-2xl mx-auto">Don't let tech problems slow you down. I'm here to help.</p>
-            <a href="tel:13108508093" class="inline-block mt-8 px-8 py-3 rounded-full bg-brand-accent text-brand-bg font-bold hover:bg-white transition">
-                Get Help Now
-            </a>
-        </div>
-    </section>
-
-    <section id="reviews" class="py-24">
+    <section id="reviews" class="py-20 border-t border-gray-800">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-16">Client Reviews</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-brand-card p-8 rounded-2xl border border-brand-accent/20 shadow-[0_0_30px_rgba(45,212,191,0.05)] flex flex-col">
-                    <div class="text-brand-accent mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p class="text-gray-300 italic text-lg leading-relaxed flex-grow">"Dan is one of a kind! Brilliant, personable, and available! Honest and fair... There was an issue with my laptop that he could not resolve, but unlike many, he knew where to refer me... Honest and fair."</p>
-                    <div class="mt-6 flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-brand-accent/10 flex items-center justify-center text-brand-accent font-bold">S</div>
-                        <div class="text-sm font-bold text-white">Sherwyn D.<span class="block text-xs text-gray-500 font-normal">Santa Monica</span></div>
+            <h2 class="text-3xl font-bold text-center mb-10">Client Reviews</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-brand-card p-6 rounded-xl border border-white/5 hover:border-brand-accent/30 transition">
+                    <div class="text-brand-accent text-sm mb-2">★★★★★</div>
+                    <p class="text-gray-300 italic text-sm">"Dan is one of a kind! Brilliant, personable, and available! Honest and fair... There was an issue with my laptop that he could not resolve, but unlike many, he knew where to refer me... Honest and fair."</p>
+                    <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-gray-700 grid place-items-center">S</div> Sherwyn D. <span class="text-gray-500 font-normal">Santa Monica</span>
                     </div>
                 </div>
-                <div class="bg-brand-card p-8 rounded-2xl border border-white/5 flex flex-col">
-                    <div class="text-brand-accent mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p class="text-gray-300 italic text-lg leading-relaxed flex-grow">"Dan brought my laptop back to life in just a few hours. I dropped it off at 2 pm on a Sunday and I came to pick it up a few hours later... Reasonably priced and tremendously convenient."</p>
-                    <div class="mt-6 flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-gray-300 font-bold">K</div>
-                        <div class="text-sm font-bold text-white">Kathie N.<span class="block text-xs text-gray-500 font-normal">West LA</span></div>
+                <div class="bg-brand-card p-6 rounded-xl border border-white/5 hover:border-brand-accent/30 transition">
+                    <div class="text-brand-accent text-sm mb-2">★★★★★</div>
+                    <p class="text-gray-300 italic text-sm">"Dan brought my laptop back to life in just a few hours. I dropped it off at 2 pm on a Sunday and I came to pick it up a few hours later... Reasonably priced and tremendously convenient."</p>
+                    <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-gray-700 grid place-items-center">K</div> Kathie N. <span class="text-gray-500 font-normal">West LA</span>
                     </div>
                 </div>
-                <div class="bg-brand-card p-8 rounded-2xl border border-white/5 flex flex-col">
-                    <div class="text-brand-accent mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p class="text-gray-300 italic text-lg leading-relaxed flex-grow">"Dan was super professional, friendly, and clearly knows his stuff. He quickly figured out what was wrong... and got everything fixed faster than I expected."</p>
-                    <div class="mt-6 flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-gray-300 font-bold">J</div>
-                        <div class="text-sm font-bold text-white">Jonathan Lopez</div>
+                <div class="bg-brand-card p-6 rounded-xl border border-white/5 hover:border-brand-accent/30 transition">
+                    <div class="text-brand-accent text-sm mb-2">★★★★★</div>
+                    <p class="text-gray-300 italic text-sm">"Dan was super professional, friendly, and clearly knows his stuff. He quickly figured out what was wrong... and got everything fixed faster than I expected."</p>
+                    <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-gray-700 grid place-items-center">J</div> Jonathan Lopez
                     </div>
                 </div>
-                <div class="bg-brand-card p-8 rounded-2xl border border-white/5 flex flex-col">
-                    <div class="text-brand-accent mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p class="text-gray-300 italic text-lg leading-relaxed flex-grow">"Dan was very responsive and able to quickly fix the problem... Dan explained things to me in terms I was able understand... Dan is very knowledgable and reliable."</p>
-                    <div class="mt-6 flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-gray-300 font-bold">J</div>
-                        <div class="text-sm font-bold text-white">Jane Lynch</div>
+                <div class="bg-brand-card p-6 rounded-xl border border-white/5 hover:border-brand-accent/30 transition">
+                    <div class="text-brand-accent text-sm mb-2">★★★★★</div>
+                    <p class="text-gray-300 italic text-sm">"Dan was very responsive and able to quickly fix the problem... Dan explained things to me in terms I was able understand... Dan is very knowledgable and reliable."</p>
+                    <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-gray-700 grid place-items-center">J</div> Jane Lynch
                     </div>
                 </div>
-                <div class="bg-brand-card p-8 rounded-2xl border border-white/5 flex flex-col">
-                    <div class="text-brand-accent mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p class="text-gray-300 italic text-lg leading-relaxed flex-grow">"Dan is very nice and very knowledgeable. He was able to fix my PC’s boot issue at a very fair price and offered to install the new drivers my Ethernet adapter would have needed to work."</p>
-                    <div class="mt-6 flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-gray-300 font-bold">A</div>
-                        <div class="text-sm font-bold text-white">Andrew Patt</div>
+                <div class="bg-brand-card p-6 rounded-xl border border-white/5 hover:border-brand-accent/30 transition">
+                    <div class="text-brand-accent text-sm mb-2">★★★★★</div>
+                    <p class="text-gray-300 italic text-sm">"Dan is very nice and very knowledgeable. He was able to fix my PC's boot issue at a very fair price and offered to install the new drivers my Ethernet adapter would have needed to work."</p>
+                    <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-gray-700 grid place-items-center">A</div> Andrew Patt
                     </div>
                 </div>
-                <div class="bg-brand-card p-8 rounded-2xl border border-white/5 flex flex-col">
-                    <div class="text-brand-accent mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p class="text-gray-300 italic text-lg leading-relaxed flex-grow">"I highly recommend Dan and his company. Very knowledgeable, knew all the right questions to ask... His prices are very reasonable. My computer behaves like its brand new!"</p>
-                    <div class="mt-6 flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-gray-300 font-bold">C</div>
-                        <div class="text-sm font-bold text-white">Carol M.<span class="block text-xs text-gray-500 font-normal">Marina del Rey</span></div>
+                <div class="bg-brand-card p-6 rounded-xl border border-white/5 hover:border-brand-accent/30 transition">
+                    <div class="text-brand-accent text-sm mb-2">★★★★★</div>
+                    <p class="text-gray-300 italic text-sm">"I highly recommend Dan and his company. Very knowledgeable, knew all the right questions to ask... His prices are very reasonable. My computer behaves like its brand new!"</p>
+                    <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-gray-700 grid place-items-center">C</div> Carol M. <span class="text-gray-500 font-normal">Marina del Rey</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="faq" class="py-24 border-t border-gray-800 bg-black/20">
+    <section id="faq" class="py-20 border-t border-gray-800 bg-black/20">
         <div class="container mx-auto px-4 max-w-3xl">
             <h2 class="text-3xl font-bold text-center mb-10">Common Questions</h2>
             <div class="space-y-4">
-                <details class="bg-brand-card p-6 rounded-xl border border-white/10 cursor-pointer group open:border-brand-accent/50 transition-all">
-                    <summary class="font-bold text-lg flex justify-between items-center text-white select-none">
-                        Do you come to my house?
-                        <i class="fa-solid fa-chevron-down text-brand-accent group-open:rotate-180 transition-transform"></i>
-                    </summary>
-                    <p class="mt-4 text-gray-400 leading-relaxed">Yes! I offer on-site support in West LA, Santa Monica, Culver City, and surrounding areas. For many issues, I can also help remotely.</p>
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
+                    <summary class="font-bold text-lg group-hover:text-brand-accent transition">Do you come to my house?</summary>
+                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Yes! I offer on-site support in West LA, Santa Monica, Culver City, and surrounding areas.</p>
                 </details>
 
-                <details class="bg-brand-card p-6 rounded-xl border border-white/10 cursor-pointer group open:border-brand-accent/50 transition-all">
-                    <summary class="font-bold text-lg flex justify-between items-center text-white select-none">
-                        What are your hours?
-                        <i class="fa-solid fa-chevron-down text-brand-accent group-open:rotate-180 transition-transform"></i>
-                    </summary>
-                    <p class="mt-4 text-gray-400 leading-relaxed">I am open Daily from 9am to 10pm. On Sundays, I am open from 10am to 9pm.</p>
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
+                    <summary class="font-bold text-lg group-hover:text-brand-accent transition">What are your hours?</summary>
+                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Open Daily 9am – 10pm. Sunday 10am – 9pm.</p>
                 </details>
 
-                <details class="bg-brand-card p-6 rounded-xl border border-white/10 cursor-pointer group open:border-brand-accent/50 transition-all">
-                    <summary class="font-bold text-lg flex justify-between items-center text-white select-none">
-                        Do you fix Macs and PCs?
-                        <i class="fa-solid fa-chevron-down text-brand-accent group-open:rotate-180 transition-transform"></i>
-                    </summary>
-                    <p class="mt-4 text-gray-400 leading-relaxed">Yes. I am experienced with both Windows computers and Apple (macOS) devices.</p>
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
+                    <summary class="font-bold text-lg group-hover:text-brand-accent transition">Do you fix Macs and PCs?</summary>
+                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Yes. Whether you have a Windows laptop, a desktop gaming PC, a MacBook, or an iMac, I can fix it.</p>
                 </details>
 
-                <details class="bg-brand-card p-6 rounded-xl border border-white/10 cursor-pointer group open:border-brand-accent/50 transition-all">
-                    <summary class="font-bold text-lg flex justify-between items-center text-white select-none">
-                        How much does it cost?
-                        <i class="fa-solid fa-chevron-down text-brand-accent group-open:rotate-180 transition-transform"></i>
-                    </summary>
-                    <p class="mt-4 text-gray-400 leading-relaxed">Rates depend on the complexity of the issue. I offer competitive hourly rates and flat fees. Contact me for a quick free estimate.</p>
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
+                    <summary class="font-bold text-lg group-hover:text-brand-accent transition">How much does it cost?</summary>
+                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">I offer fair, transparent pricing. Fill out the form above with your issue, and I will contact you quickly with an estimate.</p>
                 </details>
 
-                <details class="bg-brand-card p-6 rounded-xl border border-white/10 cursor-pointer group open:border-brand-accent/50 transition-all">
-                    <summary class="font-bold text-lg flex justify-between items-center text-white select-none">
-                        Is my data safe?
-                        <i class="fa-solid fa-chevron-down text-brand-accent group-open:rotate-180 transition-transform"></i>
-                    </summary>
-                    <p class="mt-4 text-gray-400 leading-relaxed">Absolutely. Data privacy is my top priority. I do not access personal files unless necessary for data recovery.</p>
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
+                    <summary class="font-bold text-lg group-hover:text-brand-accent transition">Is my data safe?</summary>
+                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Absolutely. I prioritize data integrity and security in every repair, ensuring your files are protected.</p>
                 </details>
             </div>
         </div>
     </section>
 
-    <footer class="py-12 border-t border-white/10 text-center text-gray-500 text-sm">
-        <p>&copy; <span id="year"></span> West LA Computer Expert. All rights reserved.</p>
+    <footer class="py-10 border-t border-white/10 text-center text-gray-500 text-sm">
+        &copy; <span id="year"></span> West LA Computer Expert. All rights reserved.
     </footer>
 
     <div id="voice-widget" style="display: none !important;" class="fixed bottom-5 right-5 z-50 w-80 bg-brand-card border border-brand-accent/50 rounded-2xl shadow-2xl p-5 backdrop-blur-md">
@@ -301,8 +249,6 @@
         function toggleVoice() {
             if (ui.widget.style.display === 'none') {
                 ui.widget.style.setProperty('display', 'block', 'important');
-                // Auto-scroll to form so user sees it
-                document.getElementById('lead-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 startStreaming();
             } else {
                 ui.widget.style.setProperty('display', 'none', 'important');
@@ -312,6 +258,7 @@
 
         async function startStreaming() {
             try {
+                // Connect to Backend
                 const r = await fetch('/.netlify/functions/deepgram-token');
                 if (!r.ok) throw new Error("Backend Error (Are you running locally?)");
                 const data = await r.json();
@@ -326,7 +273,7 @@
                     
                     step = 0;
                     speak("Hi! I can help you fill this form. First, what is your name?");
-                    ui.name.style.borderColor = '#2DD4BF'; 
+                    ui.name.style.borderColor = '#2DD4BF'; // Highlight Name
                 };
 
                 socket.onmessage = (msg) => {
@@ -385,6 +332,8 @@
             ui.transcript.innerText = `AI: "${text}"`;
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(text);
+            
+            // Warm Female Voice Selector
             const voices = window.speechSynthesis.getVoices();
             const femaleVoice = voices.find(v => 
                 v.name.includes('Google US English') || 
@@ -393,6 +342,7 @@
                 v.name.toLowerCase().includes('female')
             );
             if (femaleVoice) { u.voice = femaleVoice; u.pitch = 1.0; }
+
             aiSpeaking = true;
             u.onend = () => { aiSpeaking = false; };
             window.speechSynthesis.speak(u);
