@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
     <title>Business IT Infrastructure & Management | West LA</title>
     <meta name="description" content="Dedicated IT solutions for West LA businesses. Workstation deployment, network configuration, and office technology management. Schedule a consultation." />
     <meta name="robots" content="index, follow" />
@@ -17,12 +16,6 @@
       gtag('config', 'AW-1055117854');
     </script>
     
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://get-techsupportla.com/business.html" />
-    <meta property="og:title" content="WLA Business IT | Infrastructure & Management" />
-    <meta property="og:description" content="Dedicated IT support for West LA businesses. Workstation deployment, network security, and managed services." />
-    <meta property="og:image" content="https://cdn.usegalileo.ai/sdxl10/24058d20-7763-4796-9815-58535f299839.png" />
-
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -56,7 +49,7 @@
 </head>
 <body class="bg-brand-bg text-white">
 
-    <nav class="sticky top-0 z-50 backdrop-blur bg-brand-bg/95 border-b border-white/5">
+    <nav class="sticky top-0 z-[1000] backdrop-blur bg-brand-bg/95 border-b border-white/5">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-md bg-brand-accent/10 border border-brand-accent/20 grid place-items-center">
@@ -123,7 +116,7 @@
 
                     <textarea name="message" id="inp-msg" rows="2" class="w-full bg-black/30 border border-white/10 rounded px-4 py-3 text-white focus:border-brand-accent outline-none" placeholder="Describe your infrastructure needs..."></textarea>
 
-                    <button type="submit" class="w-full px-6 py-4 rounded bg-brand-accent text-brand-bg font-bold hover:bg-white transition">
+                    <button type="submit" class="w-full px-6 py-4 rounded bg-brand-accent text-brand-bg font-bold hover:bg-white transition relative z-20 cursor-pointer">
                         Submit Inquiry
                     </button>
                 </form>
@@ -244,17 +237,17 @@
         </div>
     </footer>
 
-    <div id="voice-widget" style="display: none !important;" class="fixed bottom-5 right-5 z-50 w-80 bg-brand-card border border-brand-accent/50 rounded-2xl shadow-2xl p-5 backdrop-blur-md">
+    <div id="voice-widget" style="display: none !important;" class="fixed bottom-5 right-5 z-[9999] w-80 bg-brand-card border border-brand-accent/50 rounded-2xl shadow-2xl p-5 backdrop-blur-md">
         <div class="flex items-center justify-between mb-3 border-b border-white/10 pb-2">
             <div class="flex items-center gap-2">
-                <div class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></div>
-                <div class="font-bold text-brand-accent text-sm">Listening...</div>
+                <div id="mic-indicator" class="w-3 h-3 rounded-full bg-gray-500"></div>
+                <div class="font-bold text-brand-accent text-sm" id="voice-status">Ready</div>
             </div>
             <button onclick="toggleVoice()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
         </div>
         
         <div class="h-24 overflow-y-auto bg-black/40 rounded p-2 text-xs text-gray-300 border border-white/5 mb-3" id="voice-transcript">
-            AI: "Hi! I can help you schedule a systems assessment."
+            Status: Ready
         </div>
 
         <div class="flex gap-2">
@@ -269,6 +262,8 @@
         const ui = {
             widget: document.getElementById('voice-widget'),
             transcript: document.getElementById('voice-transcript'),
+            status: document.getElementById('voice-status'),
+            indicator: document.getElementById('mic-indicator'),
             name: document.getElementById('inp-name'),
             company: document.getElementById('inp-company'),
             phone: document.getElementById('inp-phone'),
@@ -276,128 +271,139 @@
             msg: document.getElementById('inp-msg')
         };
         
-        let socket, mediaRecorder, step = 0;
-        let aiSpeaking = false;
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition;
+        let step = 0;
+        let isAiSpeaking = false;
+        let typingTimeout;
+
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = (event) => {
+                if (isAiSpeaking) return; // Soft Mute
+
+                const lastResult = event.results[event.results.length - 1];
+                const text = lastResult[0].transcript;
+                
+                ui.transcript.innerText = `You: "${text}"`;
+                processLogic(text);
+            };
+
+            recognition.onerror = (event) => {
+                if(event.error !== 'no-speech') ui.transcript.innerText = "Error: " + event.error;
+            };
+        } else {
+            ui.transcript.innerText = "Error: Browser not supported.";
+        }
+
+        // SMART TYPING: If user types, disable voice logic temporarily
+        function setupTyping() {
+            [ui.name, ui.company, ui.phone, ui.email, ui.msg].forEach(el => {
+                el.addEventListener('input', () => {
+                    isAiSpeaking = true; // Fake flag to stop voice processing
+                    window.speechSynthesis.cancel();
+                    clearTimeout(typingTimeout);
+                    typingTimeout = setTimeout(() => { isAiSpeaking = false; }, 2000);
+                });
+            });
+        }
+        setupTyping();
 
         function toggleVoice() {
             if (ui.widget.style.display === 'none') {
                 ui.widget.style.setProperty('display', 'block', 'important');
-                startStreaming();
-            } else {
-                ui.widget.style.setProperty('display', 'none', 'important');
-                stopStreaming();
-            }
-        }
-
-        async function startStreaming() {
-            try {
-                // Connect to Backend
-                const r = await fetch('/.netlify/functions/deepgram-token');
-                if (!r.ok) throw new Error("Backend connection failed.");
-                const data = await r.json();
-                
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                socket = new WebSocket('wss://api.deepgram.com/v1/listen?punctuate=true&model=nova-2&smart_format=true', ['token', data.access_token]);
-                
-                socket.onopen = () => {
-                    mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
-                    mediaRecorder.addEventListener('dataavailable', e => { if (e.data.size > 0) socket.send(e.data); });
-                    mediaRecorder.start(250);
-                    
+                if (recognition) {
+                    try { recognition.start(); } catch(e){}
                     step = 0;
+                    updateStatus("Listening", "green");
                     speak("Hello. I can assist with scheduling your business consultation. First, what is your contact name?");
                     ui.name.style.borderColor = '#38bdf8';
-                };
-
-                socket.onmessage = (msg) => {
-                    if (aiSpeaking) return;
-                    const rec = JSON.parse(msg.data);
-                    const trans = rec.channel?.alternatives?.[0]?.transcript;
-                    if (rec.is_final && trans && trans.trim().length > 1) {
-                        ui.transcript.innerText = `You: "${trans}"`;
-                        processLogic(trans.trim());
-                    }
-                };
-            } catch (e) {
-                ui.transcript.innerText = "Error: " + e.message;
+                }
+            } else {
+                ui.widget.style.setProperty('display', 'none', 'important');
+                window.speechSynthesis.cancel();
+                if(recognition) recognition.stop();
+                updateStatus("Off", "gray");
             }
         }
 
-        function stopStreaming() {
-            if(mediaRecorder) mediaRecorder.stop();
-            if(socket) socket.close();
-        }
+        function processLogic(text, isManual = false) {
+            if (text.toLowerCase().includes("cancel")) { toggleVoice(); return; }
 
-        function processLogic(text) {
-            const lower = text.toLowerCase();
-            if (lower.includes("cancel")) { toggleVoice(); return; }
+            if (!isManual) {
+                if (step === 0) ui.name.value = text;
+                else if (step === 1) ui.company.value = text;
+                else if (step === 2) ui.phone.value = text;
+                else if (step === 3) ui.email.value = text.replace(/ at /i, "@").replace(/ dot /i, ".").replace(/\s/g, "").toLowerCase();
+                else if (step === 4) ui.msg.value = text;
+            }
 
-            if (step === 0) { // Name
-                ui.name.value = text;
-                ui.name.style.borderColor = '#38bdf8';
+            if (step === 0) {
                 step = 1;
+                ui.name.style.borderColor = '#333';
+                ui.company.style.borderColor = '#38bdf8';
                 speak(`Thank you. What is your Company Name?`);
             }
-            else if (step === 1) { // Company
-                ui.company.value = text;
-                ui.company.style.borderColor = '#38bdf8';
+            else if (step === 1) {
                 step = 2;
+                ui.company.style.borderColor = '#333';
+                ui.phone.style.borderColor = '#38bdf8';
                 speak(`Got it. What is your work phone number?`);
             } 
-            else if (step === 2) { // Phone
-                ui.phone.value = text;
-                ui.phone.style.borderColor = '#38bdf8';
+            else if (step === 2) {
                 step = 3;
-                speak("Understood. It is better to type your email address, but you can say it if you like.");
-            } 
-            else if (step === 3) { // Email
-                let cleanEmail = text.replace(/ at /i, "@").replace(/ dot /i, ".").replace(/\s/g, "").toLowerCase();
-                if(!cleanEmail.includes('.')) cleanEmail += ".com"; 
-                ui.email.value = cleanEmail;
+                ui.phone.style.borderColor = '#333';
                 ui.email.style.borderColor = '#38bdf8';
+                speak("Understood. What is your work email?");
+            } 
+            else if (step === 3) {
                 step = 4;
+                ui.email.style.borderColor = '#333';
+                ui.msg.style.borderColor = '#38bdf8';
                 speak("Finally, briefly describe your office infrastructure needs.");
             } 
-            else if (step === 4) { // Message
-                ui.msg.value = text;
-                ui.msg.style.borderColor = '#38bdf8';
+            else if (step === 4) {
                 step = 5;
+                ui.msg.style.borderColor = '#333';
                 speak("Assessment inquiry captured. Please click Submit Inquiry to finish.");
-                stopStreaming();
             }
         }
 
         function speak(text) {
             ui.transcript.innerText = `AI: "${text}"`;
             window.speechSynthesis.cancel();
+            
+            isAiSpeaking = true;
+            updateStatus("Speaking...", "red");
+
             const u = new SpeechSynthesisUtterance(text);
             const voices = window.speechSynthesis.getVoices();
-            const femaleVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Zira') || v.name.toLowerCase().includes('female'));
+            const femaleVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Zira'));
             if (femaleVoice) { u.voice = femaleVoice; u.pitch = 1.0; }
 
-            // PAUSE RECORDING WHILE SPEAKING TO PREVENT ECHO
-            if (mediaRecorder && mediaRecorder.state === "recording") {
-                mediaRecorder.pause();
-            }
-            aiSpeaking = true;
-
             u.onend = () => { 
-                aiSpeaking = false; 
-                // Wait 2 seconds before resuming recording (Deaf Period)
-                setTimeout(() => {
-                    if (mediaRecorder && mediaRecorder.state === "paused") {
-                        mediaRecorder.resume();
-                    }
-                }, 2000); 
+                isAiSpeaking = false; 
+                updateStatus("Listening", "green");
             };
             window.speechSynthesis.speak(u);
+        }
+
+        function updateStatus(text, color) {
+            ui.status.innerText = text;
+            ui.indicator.style.backgroundColor = color === "green" ? "#2DD4BF" : (color === "red" ? "#EF4444" : "#6B7280");
+            if (color === "green") ui.indicator.classList.add("animate-pulse");
+            else ui.indicator.classList.remove("animate-pulse");
         }
         
         window.speechSynthesis.onvoiceschanged = () => { console.log("Voices loaded"); };
 
         function handleInput(val) {
             ui.transcript.innerText = `You: "${val}"`;
-            processLogic(val);
+            processLogic(val, true);
         }
     </script>
 </body>
