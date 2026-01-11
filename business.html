@@ -278,7 +278,7 @@
         
         let socket, mediaRecorder, step = 0;
         let aiSpeaking = false;
-        let ignoreAudio = false; // FIX: Prevents echo loop
+        let ignoreAudio = false;
 
         function toggleVoice() {
             if (ui.widget.style.display === 'none') {
@@ -301,7 +301,12 @@
                 
                 socket.onopen = () => {
                     mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
-                    mediaRecorder.addEventListener('dataavailable', e => { if (e.data.size > 0) socket.send(e.data); });
+                    // HARD MUTE: Do not send audio if AI is speaking or in mute period
+                    mediaRecorder.addEventListener('dataavailable', e => { 
+                        if (e.data.size > 0 && !aiSpeaking && !ignoreAudio) { 
+                            socket.send(e.data); 
+                        }
+                    });
                     mediaRecorder.start(250);
                     
                     step = 0;
@@ -310,7 +315,6 @@
                 };
 
                 socket.onmessage = (msg) => {
-                    if (aiSpeaking || ignoreAudio) return; // FIX: Echo Cancellation
                     const rec = JSON.parse(msg.data);
                     const trans = rec.channel?.alternatives?.[0]?.transcript;
                     if (rec.is_final && trans && trans.trim().length > 1) {
@@ -380,7 +384,7 @@
             
             u.onend = () => { 
                 aiSpeaking = false; 
-                setTimeout(() => { ignoreAudio = false; }, 1500); // 1.5s deaf period
+                setTimeout(() => { ignoreAudio = false; }, 2000); // 2.0s deaf period
             };
             window.speechSynthesis.speak(u);
         }
