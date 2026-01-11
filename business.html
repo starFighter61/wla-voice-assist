@@ -16,6 +16,12 @@
       gtag('js', new Date());
       gtag('config', 'AW-1055117854');
     </script>
+    
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://get-techsupportla.com/business.html" />
+    <meta property="og:title" content="WLA Business IT | Infrastructure & Management" />
+    <meta property="og:description" content="Dedicated IT support for West LA businesses. Workstation deployment, network security, and managed services." />
+    <meta property="og:image" content="https://cdn.usegalileo.ai/sdxl10/24058d20-7763-4796-9815-58535f299839.png" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -92,14 +98,14 @@
 
             <div id="contact" class="bg-brand-card border border-white/10 rounded-xl p-8 shadow-2xl relative z-10 text-left">
                 <h3 class="text-xl font-bold mb-1">Business IT Inquiry</h3>
-                <p class="text-sm text-gray-400 mb-6">Schedule a systems assessment.</p>
+                <p class="text-sm text-gray-400 mb-6">Use Voice Assist to complete the form instantly.</p>
                 
                 <form id="lead-form" name="business-lead" method="POST" data-netlify="true" class="space-y-4">
                     <input type="hidden" name="form-name" value="business-lead" />
                     
                     <div class="grid grid-cols-2 gap-4">
                         <input name="name" id="inp-name" class="bg-black/30 border border-white/10 rounded px-4 py-3 text-white focus:border-brand-accent outline-none" placeholder="Contact Name" required />
-                        <input name="company" class="bg-black/30 border border-white/10 rounded px-4 py-3 text-white focus:border-brand-accent outline-none" placeholder="Company Name" required />
+                        <input name="company" id="inp-company" class="bg-black/30 border border-white/10 rounded px-4 py-3 text-white focus:border-brand-accent outline-none" placeholder="Company Name" required />
                     </div>
                     
                     <div class="grid grid-cols-2 gap-4">
@@ -264,6 +270,7 @@
             widget: document.getElementById('voice-widget'),
             transcript: document.getElementById('voice-transcript'),
             name: document.getElementById('inp-name'),
+            company: document.getElementById('inp-company'), // Now linked correctly
             phone: document.getElementById('inp-phone'),
             email: document.getElementById('inp-email'),
             msg: document.getElementById('inp-msg')
@@ -329,26 +336,32 @@
                 ui.name.value = text;
                 ui.name.style.borderColor = '#38bdf8';
                 step = 1;
-                speak(`Thank you. What is your work phone number?`);
+                speak(`Thank you. What is your Company Name?`);
+            }
+            else if (step === 1) { // Company
+                ui.company.value = text;
+                ui.company.style.borderColor = '#38bdf8';
+                step = 2;
+                speak(`Got it. What is your work phone number?`);
             } 
-            else if (step === 1) { // Phone
+            else if (step === 2) { // Phone
                 ui.phone.value = text;
                 ui.phone.style.borderColor = '#38bdf8';
-                step = 2;
-                speak("Understood. Please provide your work email address.");
+                step = 3;
+                speak("Understood. It is better to type your email address, but you can say it if you like.");
             } 
-            else if (step === 2) { // Email
+            else if (step === 3) { // Email
                 let cleanEmail = text.replace(/ at /i, "@").replace(/ dot /i, ".").replace(/\s/g, "").toLowerCase();
                 if(!cleanEmail.includes('.')) cleanEmail += ".com"; 
                 ui.email.value = cleanEmail;
                 ui.email.style.borderColor = '#38bdf8';
-                step = 3;
+                step = 4;
                 speak("Finally, briefly describe your office infrastructure needs.");
             } 
-            else if (step === 3) { // Message
+            else if (step === 4) { // Message
                 ui.msg.value = text;
                 ui.msg.style.borderColor = '#38bdf8';
-                step = 4;
+                step = 5;
                 speak("Assessment inquiry captured. Please click Submit Inquiry to finish.");
                 stopStreaming();
             }
