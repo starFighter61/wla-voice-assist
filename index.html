@@ -49,7 +49,7 @@
 </head>
 <body id="top" class="bg-brand-bg text-white">
 
-    <nav class="sticky top-0 z-[100] backdrop-blur bg-brand-bg/80 border-b border-white/5">
+    <nav class="sticky top-0 z-[999] backdrop-blur bg-brand-bg/80 border-b border-white/5">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-brand-card border border-white/10 grid place-items-center shadow-glow">
@@ -65,7 +65,7 @@
                 <a href="#services" class="hover:text-brand-accent transition">Services</a>
                 <a href="#reviews" class="hover:text-brand-accent transition">Reviews</a>
                 <a href="#faq" class="hover:text-brand-accent transition">FAQ</a>
-                <a href="business.html" class="text-brand-accent hover:text-white transition border border-brand-accent/30 px-3 py-1 rounded cursor-pointer relative z-50">For Businesses</a>
+                <a href="business.html" class="relative z-50 text-brand-accent hover:text-white transition border border-brand-accent/30 px-3 py-1 rounded cursor-pointer">For Businesses</a>
             </div>
 
             <button onclick="toggleVoice()" class="px-4 py-2 rounded-lg bg-brand-card border border-white/10 hover:border-brand-accent/60 transition text-sm font-semibold flex items-center gap-2">
@@ -94,11 +94,11 @@
                 <p class="text-sm text-gray-400 mt-1">Use Voice Assist to fill this out instantly.</p>
                 <form id="lead-form" name="lead" method="POST" data-netlify="true" class="space-y-4 mt-4">
                     <input type="hidden" name="form-name" value="lead" />
-                    <input name="name" id="inp-name" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Name" />
-                    <input name="phone" id="inp-phone" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Phone" />
-                    <input name="email" id="inp-email" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Email" />
+                    <input name="name" id="inp-name" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Name" required />
+                    <input name="phone" id="inp-phone" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Phone" required />
+                    <input name="email" id="inp-email" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Email" required />
                     <textarea name="message" id="inp-msg" rows="3" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Describe the issue..."></textarea>
-                    <button type="submit" class="w-full px-6 py-4 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition">Send Request</button>
+                    <button type="submit" class="w-full px-6 py-4 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition cursor-pointer relative z-20">Send Request</button>
                 </form>
             </div>
         </div>
@@ -238,7 +238,7 @@
         &copy; <span id="year"></span> West LA Computer Expert. All rights reserved.
     </footer>
 
-    <div id="voice-widget" style="display: none !important;" class="fixed bottom-5 right-5 z-50 w-80 bg-brand-card border border-brand-accent/50 rounded-2xl shadow-2xl p-5 backdrop-blur-md">
+    <div id="voice-widget" style="display: none !important;" class="fixed bottom-5 right-5 z-[9999] w-80 bg-brand-card border border-brand-accent/50 rounded-2xl shadow-2xl p-5 backdrop-blur-md">
         <div class="flex items-center justify-between mb-3 border-b border-white/10 pb-2">
             <div class="flex items-center gap-2">
                 <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
@@ -270,6 +270,7 @@
         
         let socket, mediaRecorder, step = 0;
         let aiSpeaking = false;
+        let lockInput = false; // FAIL-SAFE: Completely ignores input
 
         function toggleVoice() {
             if (ui.widget.style.display === 'none') {
@@ -293,7 +294,9 @@
                 
                 socket.onopen = () => {
                     mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
-                    mediaRecorder.addEventListener('dataavailable', e => { if (e.data.size > 0) socket.send(e.data); });
+                    mediaRecorder.addEventListener('dataavailable', e => { 
+                        if (e.data.size > 0 && socket.readyState === 1) socket.send(e.data); 
+                    });
                     mediaRecorder.start(250);
                     
                     step = 0;
@@ -302,9 +305,12 @@
                 };
 
                 socket.onmessage = (msg) => {
-                    if (aiSpeaking) return;
+                    // FAIL-SAFE: If AI is speaking or locked, IGNORE everything.
+                    if (aiSpeaking || lockInput) return;
+
                     const rec = JSON.parse(msg.data);
                     const trans = rec.channel?.alternatives?.[0]?.transcript;
+                    
                     if (rec.is_final && trans && trans.trim().length > 1) {
                         ui.transcript.innerText = `You: "${trans}"`;
                         processLogic(trans.trim());
@@ -358,7 +364,6 @@
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(text);
             
-            // Warm Female Voice Selector
             const voices = window.speechSynthesis.getVoices();
             const femaleVoice = voices.find(v => 
                 v.name.includes('Google US English') || 
@@ -368,20 +373,13 @@
             );
             if (femaleVoice) { u.voice = femaleVoice; u.pitch = 1.0; }
 
-            // PAUSE RECORDING WHILE SPEAKING TO PREVENT ECHO
-            if (mediaRecorder && mediaRecorder.state === "recording") {
-                mediaRecorder.pause();
-            }
             aiSpeaking = true;
+            lockInput = true; // LOCK INPUT
 
             u.onend = () => { 
                 aiSpeaking = false; 
-                // Wait 2 seconds before resuming recording (Deaf Period)
-                setTimeout(() => {
-                    if (mediaRecorder && mediaRecorder.state === "paused") {
-                        mediaRecorder.resume();
-                    }
-                }, 2000); 
+                // SAFETY DELAY: Wait 2.5 seconds before accepting input again
+                setTimeout(() => { lockInput = false; }, 2500);
             };
             window.speechSynthesis.speak(u);
         }
