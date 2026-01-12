@@ -1,3 +1,5 @@
+[file name]: business.html
+[file content begin]
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -28,7 +30,15 @@
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <style>body { font-family: sans-serif; }</style>
+    <style>body { font-family: sans-serif; }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
 
     <script type="application/ld+json">
     {
@@ -237,13 +247,14 @@
         </div>
     </footer>
 
-    <div id="voice-widget" style="display: none !important;" class="fixed bottom-5 right-5 z-[9999] w-80 bg-brand-card border border-brand-accent/50 rounded-2xl shadow-2xl p-5 backdrop-blur-md">
+    <!-- FIXED: Changed from display: none !important to hidden class -->
+    <div id="voice-widget" class="hidden fixed bottom-5 right-5 z-[9999] w-80 bg-brand-card border border-brand-accent/50 rounded-2xl shadow-2xl p-5 backdrop-blur-md">
         <div class="flex items-center justify-between mb-3 border-b border-white/10 pb-2">
             <div class="flex items-center gap-2">
                 <div id="mic-indicator" class="w-3 h-3 rounded-full bg-gray-500"></div>
                 <div class="font-bold text-brand-accent text-sm" id="voice-status">Ready</div>
             </div>
-            <button onclick="toggleVoice()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            <button onclick="toggleVoice()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
         </div>
         
         <div class="h-24 overflow-y-auto bg-black/40 rounded p-2 text-xs text-gray-300 border border-white/5 mb-3" id="voice-transcript">
@@ -252,7 +263,7 @@
 
         <div class="flex gap-2">
             <input id="manual-input" class="flex-1 bg-black/20 border border-white/10 rounded px-2 py-1 text-xs text-white" placeholder="Type response..." />
-            <button onclick="handleInput(document.getElementById('manual-input').value)" class="bg-brand-accent text-brand-bg font-bold px-3 py-1 rounded text-xs">Send</button>
+            <button onclick="handleInput(document.getElementById('manual-input').value)" class="bg-brand-accent text-brand-bg font-bold px-3 py-1 rounded text-xs cursor-pointer">Send</button>
         </div>
     </div>
 
@@ -268,138 +279,741 @@
             company: document.getElementById('inp-company'),
             phone: document.getElementById('inp-phone'),
             email: document.getElementById('inp-email'),
-            msg: document.getElementById('inp-msg')
+            msg: document.getElementById('inp-msg'),
+            manualInput: document.getElementById('manual-input')
         };
         
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition;
         let step = 0;
         let isSpeaking = false;
+        let isListening = false;
+        let awaitingConfirmation = false;
+        let currentField = '';
+        let lastValue = '';
+        let emailCheckTimer = null;
 
-        if (SpeechRecognition) {
+        // Initialize speech recognition
+        function initRecognition() {
+            if (!SpeechRecognition) {
+                showMessage("Error: Your browser doesn't support speech recognition. Try Chrome or Edge.");
+                return null;
+            }
+            
             recognition = new SpeechRecognition();
-            recognition.continuous = false; // Turn-Taking Mode
+            recognition.continuous = false;
             recognition.interimResults = false;
             recognition.lang = 'en-US';
 
-            recognition.onstart = () => { updateStatus("Listening", "green"); };
-            recognition.onend = () => { updateStatus("Processing", "gray"); };
+            recognition.onstart = () => {
+                isListening = true;
+                updateStatus("Listening", "green");
+            };
+            
+            recognition.onend = () => {
+                isListening = false;
+                updateStatus("Ready", "gray");
+                // Auto-restart if we should still be listening
+                if (!isSpeaking && !ui.widget.classList.contains('hidden') && step < 5) {
+                    setTimeout(() => {
+                        try { 
+                            recognition.start(); 
+                        } catch(e) {
+                            console.log('Auto-restart failed:', e);
+                        }
+                    }, 500);
+                }
+            };
 
             recognition.onresult = (event) => {
-                if(isSpeaking) return;
+                if (isSpeaking) return;
+                
                 const text = event.results[0][0].transcript;
-                ui.transcript.innerText = `You: "${text}"`;
-                processLogic(text);
+                showMessage(`You: "${text}"`);
+                
+                if (awaitingConfirmation) {
+                    handleConfirmation(text);
+                } else {
+                    processLogic(text);
+                }
             };
-        } else {
-            ui.transcript.innerText = "Error: Browser not supported.";
+            
+            recognition.onerror = (event) => {
+                console.log('Speech recognition error:', event.error);
+                if (event.error === 'no-speech') {
+                    // Auto-restart if no speech detected
+                    setTimeout(() => {
+                        if (!isSpeaking && !ui.widget.classList.contains('hidden') && step < 5) {
+                            try { 
+                                recognition.start(); 
+                            } catch(e) {
+                                console.log('Failed to restart:', e);
+                            }
+                        }
+                    }, 1000);
+                }
+            };
+            
+            return recognition;
         }
-
-        // Typing stops voice
-        function setupTyping() {
-            [ui.name, ui.company, ui.phone, ui.email, ui.msg].forEach(el => {
-                el.addEventListener('input', () => {
-                    isSpeaking = true;
-                    window.speechSynthesis.cancel();
-                    if(recognition) recognition.stop();
-                });
-            });
-        }
-        setupTyping();
 
         function toggleVoice() {
-            if (ui.widget.style.display === 'none') {
-                ui.widget.style.setProperty('display', 'block', 'important');
-                if (recognition) {
-                    step = 0;
-                    speak("Hello. I can assist with scheduling your business consultation. First, what is your contact name?");
-                    ui.name.style.borderColor = '#38bdf8';
+            if (ui.widget.classList.contains('hidden')) {
+                // Show widget
+                ui.widget.classList.remove('hidden');
+                
+                // Scroll to form
+                if (document.getElementById('contact')) {
+                    document.getElementById('contact').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }
+                
+                // Initialize recognition
+                if (!recognition) {
+                    recognition = initRecognition();
+                }
+                
+                // Reset step and start
+                step = 0;
+                awaitingConfirmation = false;
+                highlightField('name');
+                
+                // Start with a slight delay to ensure widget is visible
+                setTimeout(() => {
+                    speak("Hi! I can help you fill this business consultation form. First, what is your name?");
+                }, 300);
+            } else {
+                closeVoiceWidget();
+            }
+        }
+
+        function closeVoiceWidget() {
+            ui.widget.classList.add('hidden');
+            window.speechSynthesis.cancel();
+            if (recognition && isListening) {
+                try { 
+                    recognition.abort(); 
+                } catch(e) {}
+            }
+            isListening = false;
+            awaitingConfirmation = false;
+            // Reset all field highlights
+            highlightField('none');
+        }
+
+        function highlightField(fieldName) {
+            // Reset all borders to default
+            const fields = [ui.name, ui.company, ui.phone, ui.email, ui.msg];
+            fields.forEach(field => {
+                if (field) {
+                    field.style.borderColor = ''; // Reset to CSS default
+                }
+            });
+            
+            // Highlight the active field with a thicker, more visible border
+            if (fieldName === 'name' && ui.name) {
+                ui.name.style.borderColor = '#38bdf8';
+                ui.name.style.borderWidth = '2px';
+            }
+            if (fieldName === 'company' && ui.company) {
+                ui.company.style.borderColor = '#38bdf8';
+                ui.company.style.borderWidth = '2px';
+            }
+            if (fieldName === 'phone' && ui.phone) {
+                ui.phone.style.borderColor = '#38bdf8';
+                ui.phone.style.borderWidth = '2px';
+            }
+            if (fieldName === 'email' && ui.email) {
+                ui.email.style.borderColor = '#38bdf8';
+                ui.email.style.borderWidth = '2px';
+            }
+            if (fieldName === 'msg' && ui.msg) {
+                ui.msg.style.borderColor = '#38bdf8';
+                ui.msg.style.borderWidth = '2px';
+            }
+            if (fieldName === 'none') {
+                // Ensure all borders are reset
+                fields.forEach(field => {
+                    if (field) {
+                        field.style.borderColor = '';
+                        field.style.borderWidth = '';
+                    }
+                });
+            }
+        }
+
+        function showMessage(text) {
+            if (ui.transcript) {
+                ui.transcript.textContent = text;
+                // Auto-scroll to bottom
+                ui.transcript.scrollTop = ui.transcript.scrollHeight;
+            }
+        }
+
+        // IMPROVED PHONE NUMBER EXTRACTION
+        function extractPhoneDigits(text) {
+            console.log("=== PHONE NUMBER DEBUG ===");
+            console.log("Original voice input:", text);
+            
+            // Clean the text - remove common filler words
+            let cleanText = text.toLowerCase()
+                .replace(/\b(please|can|you|give|me|my|phone|number|is|the|a|an|and|or)\b/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+            
+            console.log("Cleaned text:", cleanText);
+            
+            // Method 1: Try to extract digits spoken as individual numbers
+            const digitWords = {
+                'zero': '0', 'oh': '0', 'o': '0',
+                'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5',
+                'six': '6', 'seven': '7', 'eight': '8', 'nine': '9'
+            };
+            
+            // Handle "hundred", "thousand" for area codes like "three one oh"
+            cleanText = cleanText.replace(/three\s*one\s*oh/gi, '310')
+                                .replace(/three\s*ten/gi, '310')
+                                .replace(/eight\s*five\s*oh/gi, '850')
+                                .replace(/eight\s*fifty/gi, '850');
+            
+            // Extract spoken digits
+            let spokenDigits = '';
+            const words = cleanText.split(/\s+/);
+            
+            for (let word of words) {
+                word = word.toLowerCase().replace(/[^a-z]/g, '');
+                
+                // Check for digit words
+                if (digitWords[word]) {
+                    spokenDigits += digitWords[word];
+                } 
+                // Check for numbers like "twenty" (for 20), "thirty" (for 30), etc.
+                else if (word === 'twenty' && words[words.indexOf(word) + 1] === 'one') {
+                    spokenDigits += '21';
+                    words[words.indexOf(word) + 1] = ''; // Mark as used
+                }
+                else if (word === 'thirty') {
+                    spokenDigits += '3';
+                }
+                else if (word === 'forty') {
+                    spokenDigits += '4';
+                }
+                else if (word === 'fifty') {
+                    spokenDigits += '5';
+                }
+                else if (word === 'sixty') {
+                    spokenDigits += '6';
+                }
+                else if (word === 'seventy') {
+                    spokenDigits += '7';
+                }
+                else if (word === 'eighty') {
+                    spokenDigits += '8';
+                }
+                else if (word === 'ninety') {
+                    spokenDigits += '9';
+                }
+            }
+            
+            console.log("After digit word extraction:", spokenDigits);
+            
+            // Method 2: Extract all numeric digits directly
+            let directDigits = text.replace(/\D/g, '');
+            console.log("Direct digit extraction:", directDigits);
+            
+            // Method 3: Check for common patterns like "310-850-8093"
+            let patternDigits = '';
+            const patterns = [
+                /(\d{3})[-\s]?(\d{3})[-\s]?(\d{4})/, // 310-850-8093
+                /(\d{3})\s*(\d{3})\s*(\d{4})/,       // 310 850 8093
+                /(\d{10})/                           // 3108508093
+            ];
+            
+            for (let pattern of patterns) {
+                const match = text.match(pattern);
+                if (match) {
+                    patternDigits = match.slice(1).join('') || match[1] || match[0];
+                    break;
+                }
+            }
+            console.log("Pattern extraction:", patternDigits);
+            
+            // Combine all methods - prioritize pattern matches, then direct digits, then spoken digits
+            let result = patternDigits || directDigits || spokenDigits;
+            
+            // If we have 7 digits, might be missing area code (assume 310 for West LA)
+            if (result.length === 7) {
+                result = '310' + result;
+                console.log("Added 310 area code, now:", result);
+            }
+            
+            // Ensure we have exactly 10 digits
+            if (result.length > 10) {
+                result = result.slice(0, 10);
+            }
+            
+            console.log("Final phone digits:", result);
+            console.log("Digit count:", result.length);
+            console.log("==========================");
+            
+            return result;
+        }
+
+        function askConfirmation(field, value) {
+            awaitingConfirmation = true;
+            currentField = field;
+            lastValue = value;
+            
+            if (field === 'phone') {
+                const formatted = `(${value.slice(0,3)}) ${value.slice(3,6)}-${value.slice(6,10)}`;
+                speak(`I have your phone number as ${formatted}. Is that correct? Say "yes" or "no".`);
+            } else if (field === 'email') {
+                speak(`I have your email as ${value}. Is that correct? Say "yes" or "no".`);
+            }
+        }
+
+        function handleConfirmation(text) {
+            console.log("Handling confirmation for:", text);
+            const lower = text.toLowerCase().trim();
+            const yesWords = ['yes', 'yeah', 'yep', 'correct', 'right', 'that\'s right', 'that is correct', 'sure', 'ok', 'okay', 'yes please', 'yes it is', 'that\'s correct'];
+            const noWords = ['no', 'nope', 'wrong', 'incorrect', 'not right', 'that\'s wrong', 'that is wrong', 'no it\'s not', 'no it isn\'t', 'not correct'];
+            
+            let isYes = false;
+            let isNo = false;
+            
+            // Check for yes words
+            for (let word of yesWords) {
+                if (lower.includes(word)) {
+                    isYes = true;
+                    break;
+                }
+            }
+            
+            // Check for no words
+            for (let word of noWords) {
+                if (lower.includes(word)) {
+                    isNo = true;
+                    break;
+                }
+            }
+            
+            console.log("Confirmation result - isYes:", isYes, "isNo:", isNo);
+            
+            if (isYes) {
+                // Confirmation successful
+                awaitingConfirmation = false;
+                
+                if (currentField === 'phone') {
+                    // Format and set phone value
+                    const formatted = `(${lastValue.slice(0,3)}) ${lastValue.slice(3,6)}-${lastValue.slice(6,10)}`;
+                    if (ui.phone) {
+                        ui.phone.value = formatted;
+                        console.log("Set phone value to:", formatted);
+                    }
+                    
+                    // Move to email
+                    step = 3;
+                    highlightField('email');
+                    setTimeout(() => {
+                        speak("Great! Next, what is your work email address?");
+                    }, 300);
+                } else if (currentField === 'email') {
+                    // Set email value
+                    if (ui.email) {
+                        ui.email.value = lastValue;
+                        console.log("Set email value to:", lastValue);
+                    }
+                    
+                    // Move to message
+                    step = 4;
+                    highlightField('msg');
+                    setTimeout(() => {
+                        speak("Perfect! Finally, please describe your infrastructure needs.");
+                    }, 300);
+                }
+            } else if (isNo) {
+                // Confirmation failed - ask to re-enter
+                awaitingConfirmation = false;
+                
+                if (currentField === 'phone') {
+                    // Clear field and ask again
+                    if (ui.phone) ui.phone.value = '';
+                    highlightField('phone');
+                    setTimeout(() => {
+                        speak("Okay, let's try again. What is your work phone number?");
+                    }, 300);
+                } else if (currentField === 'email') {
+                    // Clear field and ask again
+                    if (ui.email) ui.email.value = '';
+                    highlightField('email');
+                    setTimeout(() => {
+                        speak("Okay, let's try again. What is your work email address?");
+                    }, 300);
                 }
             } else {
-                ui.widget.style.setProperty('display', 'none', 'important');
-                window.speechSynthesis.cancel();
-                if(recognition) recognition.stop();
+                // Didn't understand - ask again but stay in confirmation mode
+                console.log("Didn't understand confirmation response:", lower);
+                speak("Sorry, I didn't understand. Please say 'yes' if it's correct, or 'no' if it's wrong.");
+                // Stay in confirmation mode
+                awaitingConfirmation = true;
             }
         }
 
         function processLogic(text, isManual = false) {
-            if (text.toLowerCase().includes("cancel")) { toggleVoice(); return; }
+            if (isSpeaking || awaitingConfirmation) return;
 
-            if (!isManual) {
-                if (step === 0) ui.name.value = text;
-                else if (step === 1) ui.company.value = text;
-                else if (step === 2) ui.phone.value = text;
-                else if (step === 3) ui.email.value = text.replace(/ at /i, "@").replace(/ dot /i, ".").replace(/\s/g, "").toLowerCase();
-                else if (step === 4) ui.msg.value = text;
+            const lower = text.toLowerCase();
+            
+            // Handle cancel/stop
+            if (lower.includes("cancel") || lower.includes("stop") || lower.includes("close") || lower.includes("exit")) {
+                speak("Canceling voice assist.");
+                closeVoiceWidget();
+                return;
             }
 
-            if (step === 0) {
-                step = 1;
-                ui.name.style.borderColor = '#333';
-                ui.company.style.borderColor = '#38bdf8';
-                speak(`Thank you. What is your Company Name?`);
-            }
-            else if (step === 1) {
-                step = 2;
-                ui.company.style.borderColor = '#333';
-                ui.phone.style.borderColor = '#38bdf8';
-                speak(`Got it. What is your work phone number?`);
-            } 
-            else if (step === 2) {
-                step = 3;
-                ui.phone.style.borderColor = '#333';
-                ui.email.style.borderColor = '#38bdf8';
-                speak("Understood. What is your work email?");
-            } 
-            else if (step === 3) {
-                step = 4;
-                ui.email.style.borderColor = '#333';
-                ui.msg.style.borderColor = '#38bdf8';
-                speak("Finally, briefly describe your office infrastructure needs.");
-            } 
-            else if (step === 4) {
-                step = 5;
-                ui.msg.style.borderColor = '#333';
-                speak("Assessment inquiry captured. Please click Submit Inquiry to finish.");
+            // Process based on current step
+            switch(step) {
+                case 0: // Name
+                    if (ui.name) {
+                        // Capitalize name properly
+                        const nameParts = text.split(' ').map(part => 
+                            part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+                        );
+                        ui.name.value = nameParts.join(' ').trim();
+                    }
+                    step = 1;
+                    highlightField('company');
+                    setTimeout(() => {
+                        speak(`Thanks${ui.name && ui.name.value ? `, ${ui.name.value.split(' ')[0]}` : ''}. What is your company name?`);
+                    }, 300);
+                    break;
+                    
+                case 1: // Company
+                    if (ui.company) {
+                        ui.company.value = text;
+                    }
+                    step = 2;
+                    highlightField('phone');
+                    setTimeout(() => {
+                        speak("Great! What is your work phone number? You can say it like '310-850-8093'.");
+                    }, 300);
+                    break;
+                    
+                case 2: // Phone
+                    let phoneDigits = extractPhoneDigits(text);
+                    
+                    // Show what was recognized
+                    showMessage(`Voice: "${text}" → Extracted: ${phoneDigits || 'none'} (${phoneDigits ? phoneDigits.length : 0} digits)`);
+                    
+                    if (phoneDigits && phoneDigits.length >= 10) {
+                        // Success! Got at least 10 digits - ASK FOR CONFIRMATION
+                        askConfirmation('phone', phoneDigits);
+                    } else {
+                        // Not enough digits
+                        speak(`I heard ${phoneDigits ? phoneDigits.length : 0} digits: ${phoneDigits || 'none'}. I need 10 digits. Please say your work phone number again, like "310-850-8093".`);
+                    }
+                    break;
+                    
+                case 3: // Email
+                    let email = text.toLowerCase()
+                        .replace(/\s+/g, '')
+                        .replace(/\bat\b/gi, '@')
+                        .replace(/\bdot\b/gi, '.')
+                        .replace(/\bunderscore\b/gi, '_')
+                        .replace(/\bhyphen\b/gi, '-')
+                        .replace(/\bdash\b/gi, '-')
+                        .replace(/\s/g, ''); // Remove any remaining spaces
+                    
+                    // Clean up common spoken patterns
+                    email = email.replace(/ at /gi, '@')
+                                 .replace(/ dot /gi, '.')
+                                 .replace(/ gmail dot com$/gi, '@gmail.com')
+                                 .replace(/ yahoo dot com$/gi, '@yahoo.com')
+                                 .replace(/ outlook dot com$/gi, '@outlook.com')
+                                 .replace(/ hotmail dot com$/gi, '@hotmail.com');
+                    
+                    // Auto-add @gmail.com if just a name was said
+                    if (!email.includes('@') && !email.includes('.') && email.length > 2) {
+                        email = email + '@gmail.com';
+                    }
+                    
+                    // ASK FOR CONFIRMATION
+                    askConfirmation('email', email);
+                    break;
+                    
+                case 4: // Message (Infrastructure needs)
+                    if (ui.msg) {
+                        ui.msg.value = text;
+                    }
+                    step = 5;
+                    highlightField('none');
+                    setTimeout(() => {
+                        speak("Perfect! I've collected all your information. Please review the form, select your service type, and click 'Submit Inquiry' when you're ready.");
+                        
+                        // Stop listening since we're done
+                        if (recognition && isListening) {
+                            try {
+                                recognition.stop();
+                            } catch(e) {}
+                        }
+                    }, 300);
+                    break;
+                    
+                default:
+                    // If we somehow get past step 5
+                    speak("All information collected. Please select your service type and click 'Submit Inquiry'.");
+                    break;
             }
         }
 
+        function handleInput(val) {
+            if (!val.trim()) return;
+            
+            showMessage(`You: "${val}"`);
+            
+            if (awaitingConfirmation) {
+                handleConfirmation(val);
+            } else {
+                processLogic(val, true);
+            }
+            
+            if (ui.manualInput) {
+                ui.manualInput.value = '';
+            }
+        }
+
+        // Setup typing listeners with confirmation
+        function setupTypingListeners() {
+            // Name field
+            if (ui.name) {
+                ui.name.addEventListener('focus', () => {
+                    step = 0;
+                    highlightField('name');
+                });
+                
+                ui.name.addEventListener('input', () => {
+                    if (isSpeaking) {
+                        window.speechSynthesis.cancel();
+                        isSpeaking = false;
+                    }
+                });
+            }
+            
+            // Company field
+            if (ui.company) {
+                ui.company.addEventListener('focus', () => {
+                    step = 1;
+                    highlightField('company');
+                });
+                
+                ui.company.addEventListener('input', () => {
+                    if (isSpeaking) {
+                        window.speechSynthesis.cancel();
+                        isSpeaking = false;
+                    }
+                });
+                
+                ui.company.addEventListener('blur', (e) => {
+                    if (step === 1 && !awaitingConfirmation && e.target.value.trim()) {
+                        step = 2;
+                        highlightField('phone');
+                        speak("Great! Now what is your work phone number?");
+                    }
+                });
+            }
+            
+            // Phone field
+            if (ui.phone) {
+                ui.phone.addEventListener('focus', () => {
+                    step = 2;
+                    highlightField('phone');
+                });
+                
+                ui.phone.addEventListener('blur', (e) => {
+                    if (step === 2 && !awaitingConfirmation) {
+                        const value = e.target.value.replace(/\D/g, '');
+                        if (value.length >= 10) {
+                            // Ask for confirmation when typed
+                            askConfirmation('phone', value);
+                        }
+                    }
+                });
+                
+                ui.phone.addEventListener('input', (e) => {
+                    if (isSpeaking) {
+                        window.speechSynthesis.cancel();
+                        isSpeaking = false;
+                    }
+                });
+            }
+            
+            // Email field
+            if (ui.email) {
+                ui.email.addEventListener('focus', () => {
+                    step = 3;
+                    highlightField('email');
+                });
+                
+                ui.email.addEventListener('blur', (e) => {
+                    if (step === 3 && !awaitingConfirmation) {
+                        const value = e.target.value.trim();
+                        if (value.includes('@') && value.includes('.')) {
+                            // ASK FOR CONFIRMATION
+                            askConfirmation('email', value);
+                        }
+                    }
+                });
+                
+                ui.email.addEventListener('input', (e) => {
+                    if (isSpeaking) {
+                        window.speechSynthesis.cancel();
+                        isSpeaking = false;
+                    }
+                    
+                    // Clear any existing timer
+                    if (emailCheckTimer) {
+                        clearTimeout(emailCheckTimer);
+                    }
+                    
+                    // Auto-confirm after typing stops for 1.5 seconds
+                    const value = e.target.value.trim();
+                    if (value.includes('@') && value.includes('.')) {
+                        emailCheckTimer = setTimeout(() => {
+                            if (step === 3 && !awaitingConfirmation && ui.email.value === value) {
+                                askConfirmation('email', value);
+                            }
+                            emailCheckTimer = null;
+                        }, 1500);
+                    }
+                });
+            }
+            
+            // Message field
+            if (ui.msg) {
+                ui.msg.addEventListener('focus', () => {
+                    step = 4;
+                    highlightField('msg');
+                });
+                
+                ui.msg.addEventListener('input', () => {
+                    if (isSpeaking) {
+                        window.speechSynthesis.cancel();
+                        isSpeaking = false;
+                    }
+                });
+            }
+            
+            // Manual input enter key
+            if (ui.manualInput) {
+                ui.manualInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        handleInput(ui.manualInput.value);
+                    }
+                });
+            }
+        }
+        
+        setupTypingListeners();
+
         function speak(text) {
-            ui.transcript.innerText = `AI: "${text}"`;
+            showMessage(`AI: "${text}"`);
+            
+            // Cancel any ongoing speech
             window.speechSynthesis.cancel();
-            if(recognition) recognition.stop();
+            
+            // Stop listening while speaking
+            if (recognition && isListening) {
+                try { 
+                    recognition.abort(); 
+                } catch(e) {}
+            }
             
             isSpeaking = true;
             updateStatus("Speaking...", "red");
 
-            const u = new SpeechSynthesisUtterance(text);
+            const utterance = new SpeechSynthesisUtterance(text);
+            
+            // Set voice properties
             const voices = window.speechSynthesis.getVoices();
-            const femaleVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Zira'));
-            if (femaleVoice) { u.voice = femaleVoice; u.pitch = 1.0; }
+            if (voices.length > 0) {
+                // Try to find a natural-sounding voice
+                const preferredVoice = voices.find(v => 
+                    v.name.includes('Google US English') || 
+                    v.name.includes('Zira') || 
+                    v.name.includes('Samantha') ||
+                    v.name.includes('Female')
+                );
+                if (preferredVoice) utterance.voice = preferredVoice;
+            }
+            
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
 
-            u.onend = () => { 
-                isSpeaking = false; 
-                // Auto-Restart listening after silence
-                if(ui.widget.style.display !== 'none' && step < 5) {
-                    setTimeout(() => { try { recognition.start(); } catch(e){} }, 500);
+            utterance.onend = () => {
+                isSpeaking = false;
+                updateStatus("Ready", "gray");
+                
+                // Restart listening if widget is still open and we're not done
+                if (!ui.widget.classList.contains('hidden') && step < 5) {
+                    setTimeout(() => {
+                        try {
+                            if (recognition && !isListening) {
+                                recognition.start();
+                            }
+                        } catch(e) {
+                            console.log('Failed to restart recognition after speaking:', e);
+                        }
+                    }, 800);
                 }
             };
-            window.speechSynthesis.speak(u);
+            
+            utterance.onerror = (event) => {
+                console.log('Speech synthesis error:', event);
+                isSpeaking = false;
+                updateStatus("Ready", "gray");
+            };
+            
+            window.speechSynthesis.speak(utterance);
         }
 
         function updateStatus(text, color) {
-            ui.status.innerText = text;
-            ui.indicator.style.backgroundColor = color === "green" ? "#2DD4BF" : (color === "red" ? "#EF4444" : "#6B7280");
-            if (color === "green") ui.indicator.classList.add("animate-pulse");
-            else ui.indicator.classList.remove("animate-pulse");
+            if (!ui.status || !ui.indicator) return;
+            
+            ui.status.textContent = text;
+            
+            switch(color) {
+                case 'green':
+                    ui.indicator.style.backgroundColor = '#2DD4BF';
+                    ui.indicator.classList.add('animate-pulse');
+                    break;
+                case 'red':
+                    ui.indicator.style.backgroundColor = '#EF4444';
+                    ui.indicator.classList.remove('animate-pulse');
+                    break;
+                default:
+                    ui.indicator.style.backgroundColor = '#6B7280';
+                    ui.indicator.classList.remove('animate-pulse');
+                    break;
+            }
         }
         
-        window.speechSynthesis.onvoiceschanged = () => { console.log("Voices loaded"); };
-
-        function handleInput(val) {
-            ui.transcript.innerText = `You: "${val}"`;
-            processLogic(val, true);
+        // Load voices when available
+        if (window.speechSynthesis) {
+            // Get voices immediately
+            let voices = window.speechSynthesis.getVoices();
+            if (voices.length === 0) {
+                window.speechSynthesis.onvoiceschanged = () => {
+                    voices = window.speechSynthesis.getVoices();
+                    console.log('Voices loaded:', voices.length);
+                };
+            } else {
+                console.log('Voices already available:', voices.length);
+            }
         }
     </script>
 </body>
 </html>
+[file content end]

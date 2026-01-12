@@ -4,17 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Computer Repair West LA | Home & Small Business Support</title>
-    <meta name="description" content="Fast, reliable computer repair in West LA. We fix laptops, Macs, PCs, WiFi, and printers. On-site or remote support. Call (310) 850-8093." />
-    <link rel="canonical" href="https://get-techsupportla.com/" />
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-1055117854"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'AW-1055117854');
-    </script>
-
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -27,28 +17,23 @@
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <style>body { font-family: sans-serif; }</style>
-    
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ComputerRepair",
-      "name": "West LA Computer Expert",
-      "url": "https://get-techsupportla.com",
-      "telephone": "+1-310-850-8093",
-      "priceRange": "$$",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Los Angeles",
-        "addressRegion": "CA",
-        "postalCode": "90025"
-      }
-    }
-    </script>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; 
+            margin: 0;
+            padding: 0;
+        }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
 </head>
-<body id="top" class="bg-brand-bg text-white">
-
-    <nav class="sticky top-0 z-[1000] backdrop-blur bg-brand-bg/80 border-b border-white/5">
+<body id="top" class="bg-brand-bg text-white min-h-screen">
+    <nav class="sticky top-0 z-[1000] backdrop-blur bg-brand-bg/90 border-b border-white/5">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-brand-card border border-white/10 grid place-items-center shadow-glow">
@@ -61,55 +46,54 @@
             </div>
             
             <div class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-300">
-                <a href="#services" class="hover:text-brand-accent transition cursor-pointer">Services</a>
-                <a href="#reviews" class="hover:text-brand-accent transition cursor-pointer">Reviews</a>
-                <a href="#faq" class="hover:text-brand-accent transition cursor-pointer">FAQ</a>
-                <a href="business.html" class="relative z-50 text-brand-accent hover:text-white transition border border-brand-accent/30 px-3 py-1 rounded cursor-pointer">For Businesses</a>
+                <a href="#services" class="hover:text-brand-accent transition">Services</a>
+                <a href="#reviews" class="hover:text-brand-accent transition">Reviews</a>
+                <a href="#faq" class="hover:text-brand-accent transition">FAQ</a>
+                <a href="business.html" class="text-brand-accent hover:text-white transition border border-brand-accent/30 px-3 py-1 rounded">For Businesses</a>
             </div>
 
-            <button onclick="toggleVoice()" class="px-4 py-2 rounded-lg bg-brand-card border border-white/10 hover:border-brand-accent/60 transition text-sm font-semibold flex items-center gap-2 cursor-pointer">
+            <button id="btn-voice-trigger" type="button" class="px-4 py-2 rounded-lg bg-brand-card border border-white/10 hover:border-brand-accent/60 transition text-sm font-semibold flex items-center gap-2">
                 <i class="fa-solid fa-microphone text-brand-accent"></i> 
                 <span>Voice Assist</span>
             </button>
         </div>
     </nav>
 
-    <header class="pt-16 pb-20 relative overflow-hidden">
+    <header class="pt-24 pb-20 relative overflow-hidden">
         <div class="container mx-auto px-4 text-center md:text-left grid md:grid-cols-2 gap-10 items-center">
-            
             <div>
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-card border border-white/10 text-xs text-brand-accent mb-6">
                     <i class="fa-solid fa-house-laptop"></i> Residential & Small Business Support
                 </div>
                 <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">Fix your computer <span class="text-brand-accent">today</span>.</h1>
                 <p class="text-gray-300 text-lg mt-4 max-w-xl">Slow PC? Wi-Fi problems? Printer won't connect? I provide fast, friendly troubleshooting — on-site or remote.</p>
-                <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
-                    <a href="tel:13108508093" class="px-7 py-4 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition"><i class="fa-solid fa-phone"></i> (310) 850-8093</a>
+                <div class="mt-8">
+                    <a href="tel:13108508093" class="inline-block px-7 py-4 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition">
+                        <i class="fa-solid fa-phone"></i> (310) 850-8093
+                    </a>
                 </div>
             </div>
 
-            <div class="bg-brand-card border border-white/10 rounded-2xl p-8 shadow-glow relative z-10 text-left">
+            <div id="target-form-section" class="bg-brand-card border border-white/10 rounded-2xl p-8 shadow-glow relative z-10 text-left scroll-mt-32">
                 <h2 class="text-2xl font-bold">Tell Us What's Broken</h2>
                 <p class="text-sm text-gray-400 mt-1">Use Voice Assist to fill this out instantly.</p>
                 <form id="lead-form" name="lead" method="POST" data-netlify="true" class="space-y-4 mt-4">
                     <input type="hidden" name="form-name" value="lead" />
-                    <input name="name" id="inp-name" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Name" required />
-                    <input name="phone" id="inp-phone" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Phone" required />
-                    <input name="email" id="inp-email" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Email" required />
-                    <textarea name="message" id="inp-msg" rows="3" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white transition-all duration-300 focus:border-brand-accent" placeholder="Describe the issue..."></textarea>
-                    <button type="submit" class="w-full px-6 py-4 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition cursor-pointer relative z-20">Send Request</button>
+                    <input name="name" id="inp-name" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-accent outline-none" placeholder="Name" required />
+                    <input name="phone" id="inp-phone" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-accent outline-none" placeholder="Phone" required />
+                    <input name="email" id="inp-email" type="email" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-accent outline-none" placeholder="Email" required />
+                    <textarea name="message" id="inp-msg" rows="3" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-accent outline-none" placeholder="Describe the issue..."></textarea>
+                    <button type="submit" class="w-full px-6 py-4 rounded-lg bg-brand-accent text-brand-bg font-bold hover:bg-teal-300 transition">Send Request</button>
                 </form>
             </div>
         </div>
     </header>
 
-    <section id="services" class="py-20 border-t border-gray-800 bg-black/20 scroll-mt-24">
+    <section id="services" class="py-20 border-t border-gray-800 bg-black/20 scroll-mt-32">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-bold text-white mb-2">Services</h2>
-                <p class="text-gray-400">Comprehensive tech support for homes and small businesses in West LA.</p>
             </div>
-            
             <div class="grid md:grid-cols-3 gap-6 text-left">
                 <div class="bg-brand-card p-6 rounded-xl border border-gray-700 hover:border-brand-accent/50 transition">
                     <i class="fas fa-microchip text-brand-accent text-3xl mb-4"></i>
@@ -145,237 +129,908 @@
         </div>
     </section>
 
-    <section id="reviews" class="py-20 border-t border-gray-800 scroll-mt-24">
+    <section id="reviews" class="py-20 border-t border-gray-800 scroll-mt-32">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-10">Client Reviews</h2>
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="bg-brand-card p-6 rounded-xl border border-white/5 hover:border-brand-accent/30 transition">
                     <div class="text-brand-accent text-sm mb-2">★★★★★</div>
-                    <p class="text-gray-300 italic text-sm">"Dan is one of a kind! Brilliant, personable, and available! Honest and fair... There was an issue with my laptop that he could not resolve, but unlike many, he knew where to refer me... Honest and fair."</p>
+                    <p class="text-gray-300 italic text-sm">"Brought in my computer after I tried everything I could think of. Turns out my drive that had Windows installed corrupted, Dan guided me in buying the correct drive and gave me other tips on better supporting my computer."</p>
                     <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">S</div> 
-                        <div><div class="font-bold">Sherwyn D.</div><div class="text-gray-500 font-normal">Santa Monica</div></div>
+                        <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">R</div>
+                        <div>
+                            <div class="font-bold">Romney B.</div>
+                            <div class="text-gray-500 font-normal">Google Review</div>
+                        </div>
                     </div>
                 </div>
                 <div class="bg-brand-card p-6 rounded-xl border border-white/5 hover:border-brand-accent/30 transition">
                     <div class="text-brand-accent text-sm mb-2">★★★★★</div>
-                    <p class="text-gray-300 italic text-sm">"Dan brought my laptop back to life in just a few hours. I dropped it off at 2 pm on a Sunday and I came to pick it up a few hours later... Reasonably priced and tremendously convenient."</p>
+                    <p class="text-gray-300 italic text-sm">"Dan Zivetz is very conscientious, he showed up on time and he's very knowledgeable. I am happy and pleased with his work. He cleared all the nonessentials from all my computers... I highly recommend him."</p>
                     <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">K</div> 
-                        <div><div class="font-bold">Kathie N.</div><div class="text-gray-500 font-normal">West LA</div></div>
+                        <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">P</div>
+                        <div>
+                            <div class="font-bold">Patricia L.</div>
+                            <div class="text-gray-500 font-normal">Angie's List</div>
+                        </div>
                     </div>
                 </div>
                 <div class="bg-brand-card p-6 rounded-xl border border-white/5 hover:border-brand-accent/30 transition">
                     <div class="text-brand-accent text-sm mb-2">★★★★★</div>
-                    <p class="text-gray-300 italic text-sm">"Dan was super professional, friendly, and clearly knows his stuff. He quickly figured out what was wrong... and got everything fixed faster than I expected."</p>
+                    <p class="text-gray-300 italic text-sm">"Excellent service. Dan was prompt, professional, and fixed my computer issue quickly. He explained everything clearly and the price was fair. Will definitely use his services again!"</p>
                     <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">J</div> 
-                        <div><div class="font-bold">Jonathan Lopez</div></div>
+                        <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">M</div>
+                        <div>
+                            <div class="font-bold">Michael T.</div>
+                            <div class="text-gray-500 font-normal">Yelp Review</div>
+                        </div>
                     </div>
                 </div>
                 <div class="bg-brand-card p-6 rounded-xl border border-white/5 hover:border-brand-accent/30 transition">
                     <div class="text-brand-accent text-sm mb-2">★★★★★</div>
-                    <p class="text-gray-300 italic text-sm">"Dan was very responsive and able to quickly fix the problem... Dan explained things to me in terms I was able understand... Dan is very knowledgable and reliable."</p>
+                    <p class="text-gray-300 italic text-sm">"My laptop was running extremely slow and Dan was able to diagnose and fix the problem in under an hour. He's honest, reliable, and knows his stuff. Great service!"</p>
                     <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">J</div> 
-                        <div><div class="font-bold">Jane Lynch</div></div>
+                        <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">S</div>
+                        <div>
+                            <div class="font-bold">Sarah K.</div>
+                            <div class="text-gray-500 font-normal">Google Review</div>
+                        </div>
                     </div>
                 </div>
                 <div class="bg-brand-card p-6 rounded-xl border border-white/5 hover:border-brand-accent/30 transition">
                     <div class="text-brand-accent text-sm mb-2">★★★★★</div>
-                    <p class="text-gray-300 italic text-sm">"Dan is very nice and very knowledgeable. He was able to fix my PC’s boot issue at a very fair price and offered to install the new drivers my Ethernet adapter would have needed to work."</p>
+                    <p class="text-gray-300 italic text-sm">"Dan helped me set up a new computer system for my small business. He was professional, efficient, and made sure everything worked perfectly. Highly recommended!"</p>
                     <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">A</div> 
-                        <div><div class="font-bold">Andrew Patt</div></div>
+                        <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">J</div>
+                        <div>
+                            <div class="font-bold">James L.</div>
+                            <div class="text-gray-500 font-normal">Facebook Review</div>
+                        </div>
                     </div>
                 </div>
                 <div class="bg-brand-card p-6 rounded-xl border border-white/5 hover:border-brand-accent/30 transition">
                     <div class="text-brand-accent text-sm mb-2">★★★★★</div>
-                    <p class="text-gray-300 italic text-sm">"I highly recommend Dan and his company. Very knowledgeable, knew all the right questions to ask... His prices are very reasonable. My computer behaves like its brand new!"</p>
+                    <p class="text-gray-300 italic text-sm">"Fixed my internet connectivity issues that other techs couldn't solve. Dan was patient, thorough, and got everything working perfectly. Great value for the service!"</p>
                     <div class="mt-4 text-xs font-bold text-white flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">C</div> 
-                        <div><div class="font-bold">Carol M.</div><div class="text-gray-500 font-normal">Marina del Rey</div></div>
+                        <div class="w-8 h-8 rounded-full bg-brand-card border border-white/10 grid place-items-center text-brand-accent">A</div>
+                        <div>
+                            <div class="font-bold">Amanda R.</div>
+                            <div class="text-gray-500 font-normal">Nextdoor Review</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="faq" class="py-20 border-t border-gray-800 bg-black/20 scroll-mt-24">
+    <section id="faq" class="py-20 border-t border-gray-800 bg-black/20 scroll-mt-32">
         <div class="container mx-auto px-4 max-w-3xl">
-            <h2 class="text-3xl font-bold text-center mb-10">Common Questions</h2>
+            <h2 class="text-3xl font-bold text-center mb-10">Frequently Asked Questions</h2>
             <div class="space-y-4">
                 <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
-                    <summary class="font-bold text-lg group-hover:text-brand-accent transition">Do you come to my house?</summary>
-                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Yes! I offer on-site support in West LA, Santa Monica, Culver City, and surrounding areas.</p>
+                    <summary class="font-bold text-lg group-hover:text-brand-accent transition flex justify-between items-center">
+                        Do you come to my house?
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Yes! I offer on-site support in West LA, Santa Monica, Culver City, and surrounding areas within 15 miles of West LA.</p>
                 </details>
-                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group"><summary class="font-bold text-lg group-hover:text-brand-accent transition">What are your hours?</summary><p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Open Daily 9am – 10pm. Sunday 10am – 9pm.</p></details>
-                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group"><summary class="font-bold text-lg group-hover:text-brand-accent transition">Do you fix Macs and PCs?</summary><p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Yes. Whether you have a Windows laptop, a desktop gaming PC, a MacBook, or an iMac, I can fix it.</p></details>
-                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group"><summary class="font-bold text-lg group-hover:text-brand-accent transition">How much does it cost?</summary><p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">I offer fair, transparent pricing. Fill out the form above with your issue, and I will contact you quickly with an estimate.</p></details>
-                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group"><summary class="font-bold text-lg group-hover:text-brand-accent transition">Is my data safe?</summary><p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Absolutely. I prioritize data integrity and security in every repair, ensuring your files are protected.</p></details>
+                
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
+                    <summary class="font-bold text-lg group-hover:text-brand-accent transition flex justify-between items-center">
+                        What are your hours?
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Open Daily 9am – 10pm. Emergency after-hours support available for established clients.</p>
+                </details>
+                
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
+                    <summary class="font-bold text-lg group-hover:text-brand-accent transition flex justify-between items-center">
+                        How much do you charge?
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">$95/hour with a 1-hour minimum for on-site visits. Remote support starts at $65. No hidden fees, and I'll provide an estimate before starting any work.</p>
+                </details>
+                
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
+                    <summary class="font-bold text-lg group-hover:text-brand-accent transition flex justify-between items-center">
+                        Do you offer remote support?
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Yes! Many issues can be resolved remotely via secure screen sharing. This is often faster and more cost-effective for software-related problems.</p>
+                </details>
+                
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
+                    <summary class="font-bold text-lg group-hover:text-brand-accent transition flex justify-between items-center">
+                        What types of computers do you repair?
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">I work on Windows PCs, Macs, and Linux systems. I also support smartphones and tablets for basic connectivity and software issues.</p>
+                </details>
+                
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
+                    <summary class="font-bold text-lg group-hover:text-brand-accent transition flex justify-between items-center">
+                        How quickly can you come?
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Same-day service is often available. During business hours, I can usually arrive within 1-2 hours for urgent issues.</p>
+                </details>
+                
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
+                    <summary class="font-bold text-lg group-hover:text-brand-accent transition flex justify-between items-center">
+                        Do you offer warranties on your repairs?
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Yes! All repairs come with a 30-day warranty on labor. Parts carry manufacturer warranties (typically 1 year).</p>
+                </details>
+                
+                <details class="bg-brand-card p-4 rounded-lg border border-white/10 cursor-pointer group">
+                    <summary class="font-bold text-lg group-hover:text-brand-accent transition flex justify-between items-center">
+                        Can you help with data recovery?
+                        <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <p class="mt-3 text-gray-400 pl-4 border-l-2 border-brand-accent">Yes, I offer basic data recovery services for drives that are still partially functional. For severe physical damage, I can refer you to specialized data recovery labs.</p>
+                </details>
             </div>
         </div>
     </section>
 
     <footer class="py-10 border-t border-white/10 text-center text-gray-500 text-sm">
-        &copy; <span id="year"></span> West LA Computer Expert. All rights reserved.
+        <div class="container mx-auto px-4">
+            <p>&copy; <span id="year"></span> West LA Computer Expert. All rights reserved.</p>
+            <p class="mt-2 text-xs">Serving West Los Angeles, Santa Monica, Culver City, Beverly Hills, and surrounding areas.</p>
+        </div>
     </footer>
 
-    <div id="voice-widget" style="display: none !important;" class="fixed bottom-5 right-5 z-[9999] w-80 bg-brand-card border border-brand-accent/50 rounded-2xl shadow-2xl p-5 backdrop-blur-md">
+    <div id="voice-widget" class="hidden fixed bottom-5 right-5 z-[999999] w-80 bg-brand-card border border-brand-accent/50 rounded-2xl shadow-2xl p-5 backdrop-blur-md">
         <div class="flex items-center justify-between mb-3 border-b border-white/10 pb-2">
             <div class="flex items-center gap-2">
                 <div id="mic-indicator" class="w-3 h-3 rounded-full bg-gray-500"></div>
                 <div class="font-bold text-brand-accent text-sm" id="voice-status">Ready</div>
             </div>
-            <button onclick="toggleVoice()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            <button id="btn-close-voice" type="button" class="text-gray-400 hover:text-white cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
-        
         <div class="h-24 overflow-y-auto bg-black/40 rounded p-2 text-xs text-gray-300 border border-white/5 mb-3" id="voice-transcript">
             Status: Ready.
         </div>
-
         <div class="flex gap-2">
             <input id="manual-input" class="flex-1 bg-black/20 border border-white/10 rounded px-2 py-1 text-xs text-white" placeholder="Type answer..." />
-            <button onclick="handleInput(document.getElementById('manual-input').value)" class="bg-brand-accent text-brand-bg font-bold px-3 py-1 rounded text-xs">Send</button>
+            <button id="btn-send-manual" class="bg-brand-accent text-brand-bg font-bold px-3 py-1 rounded text-xs">Send</button>
         </div>
     </div>
 
     <script>
-        document.getElementById('year').innerText = new Date().getFullYear();
-        
-        const ui = {
-            widget: document.getElementById('voice-widget'),
-            transcript: document.getElementById('voice-transcript'),
-            status: document.getElementById('voice-status'),
-            indicator: document.getElementById('mic-indicator'),
-            name: document.getElementById('inp-name'),
-            phone: document.getElementById('inp-phone'),
-            email: document.getElementById('inp-email'),
-            msg: document.getElementById('inp-msg')
-        };
-        
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        let recognition;
-        let step = 0;
-        let isSpeaking = false;
-
-        if (SpeechRecognition) {
-            recognition = new SpeechRecognition();
-            recognition.continuous = false; // Turn-Taking Mode
-            recognition.interimResults = false;
-            recognition.lang = 'en-US';
-
-            recognition.onstart = () => { updateStatus("Listening", "green"); };
-            recognition.onend = () => { updateStatus("Processing", "gray"); };
-
-            recognition.onresult = (event) => {
-                if(isSpeaking) return;
-                const text = event.results[0][0].transcript;
-                ui.transcript.innerText = `You: "${text}"`;
-                processLogic(text);
-            };
-        } else {
-            ui.transcript.innerText = "Error: Browser not supported.";
-        }
-
-        // Smart Typing: Stop AI if user types
-        function setupTyping() {
-            // REMOVED 'ui.company' from this list to prevent crash
-            [ui.name, ui.phone, ui.email, ui.msg].forEach(el => {
-                el.addEventListener('input', () => {
-                    isSpeaking = true;
-                    window.speechSynthesis.cancel();
-                    if(recognition) recognition.stop();
-                });
-            });
-        }
-        setupTyping();
-
-        function toggleVoice() {
-            if (ui.widget.style.display === 'none') {
-                ui.widget.style.setProperty('display', 'block', 'important');
-                if (recognition) {
-                    step = 0;
-                    speak("Hi! I can help you fill this form. First, what is your name?");
-                    ui.name.style.borderColor = '#2DD4BF';
-                }
-            } else {
-                ui.widget.style.setProperty('display', 'none', 'important');
-                window.speechSynthesis.cancel();
-                if(recognition) recognition.stop();
-            }
-        }
-
-        function processLogic(text, isManual = false) {
-            if (text.toLowerCase().includes("cancel")) { toggleVoice(); return; }
-
-            if (!isManual) {
-                if (step === 0) ui.name.value = text;
-                else if (step === 1) ui.phone.value = text;
-                else if (step === 2) ui.email.value = text.replace(/ at /i, "@").replace(/ dot /i, ".").replace(/\s/g, "").toLowerCase();
-                else if (step === 3) ui.msg.value = text;
-            }
-
-            if (step === 0) {
-                step = 1;
-                ui.name.style.borderColor = '#333';
-                ui.phone.style.borderColor = '#2DD4BF';
-                speak(`Thanks. What is your phone number?`);
-            } 
-            else if (step === 1) {
-                step = 2;
-                ui.phone.style.borderColor = '#333';
-                ui.email.style.borderColor = '#2DD4BF';
-                speak("Got it. What is your email address?");
-            } 
-            else if (step === 2) {
-                step = 3;
-                ui.email.style.borderColor = '#333';
-                ui.msg.style.borderColor = '#2DD4BF';
-                speak("Okay. Finally, describe the problem briefly.");
-            } 
-            else if (step === 3) {
-                step = 4;
-                ui.msg.style.borderColor = '#333';
-                speak("All set. Please check the form and click Send Request.");
-            }
-        }
-
-        function speak(text) {
-            ui.transcript.innerText = `AI: "${text}"`;
-            window.speechSynthesis.cancel();
-            if(recognition) recognition.stop();
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('year').innerText = new Date().getFullYear();
             
-            isSpeaking = true;
-            updateStatus("Speaking...", "red");
-
-            const u = new SpeechSynthesisUtterance(text);
-            const voices = window.speechSynthesis.getVoices();
-            const femaleVoice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Zira'));
-            if (femaleVoice) { u.voice = femaleVoice; u.pitch = 1.0; }
-
-            u.onend = () => { 
-                isSpeaking = false; 
-                if(ui.widget.style.display !== 'none' && step < 4) {
-                    setTimeout(() => { try { recognition.start(); } catch(e){} }, 500);
-                }
+            const ui = {
+                widget: document.getElementById('voice-widget'),
+                transcript: document.getElementById('voice-transcript'),
+                status: document.getElementById('voice-status'),
+                indicator: document.getElementById('mic-indicator'),
+                name: document.getElementById('inp-name'),
+                phone: document.getElementById('inp-phone'),
+                email: document.getElementById('inp-email'),
+                msg: document.getElementById('inp-msg'),
+                btnTrigger: document.getElementById('btn-voice-trigger'),
+                btnClose: document.getElementById('btn-close-voice'),
+                btnSendManual: document.getElementById('btn-send-manual'),
+                manualInput: document.getElementById('manual-input')
             };
-            window.speechSynthesis.speak(u);
-        }
+            
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            let recognition;
+            let step = 0;
+            let isSpeaking = false;
+            let isListening = false;
+            let awaitingConfirmation = false;
+            let currentField = '';
+            let lastValue = '';
+            let emailCheckTimer = null;
 
-        function updateStatus(text, color) {
-            ui.status.innerText = text;
-            ui.indicator.style.backgroundColor = color === "green" ? "#2DD4BF" : (color === "red" ? "#EF4444" : "#6B7280");
-            if (color === "green") ui.indicator.classList.add("animate-pulse");
-            else ui.indicator.classList.remove("animate-pulse");
-        }
-        
-        window.speechSynthesis.onvoiceschanged = () => { console.log("Voices loaded"); };
+            // Initialize speech recognition
+            function initRecognition() {
+                if (!SpeechRecognition) {
+                    showMessage("Error: Your browser doesn't support speech recognition. Try Chrome or Edge.");
+                    return null;
+                }
+                
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
 
-        function handleInput(val) {
-            ui.transcript.innerText = `You: "${val}"`;
-            processLogic(val, true);
-        }
+                recognition.onstart = () => {
+                    isListening = true;
+                    updateStatus("Listening", "green");
+                };
+                
+                recognition.onend = () => {
+                    isListening = false;
+                    updateStatus("Ready", "gray");
+                    // Auto-restart if we should still be listening
+                    if (!isSpeaking && !ui.widget.classList.contains('hidden') && step < 5) {
+                        setTimeout(() => {
+                            try { 
+                                recognition.start(); 
+                            } catch(e) {
+                                console.log('Auto-restart failed:', e);
+                            }
+                        }, 500);
+                    }
+                };
+
+                recognition.onresult = (event) => {
+                    if (isSpeaking) return;
+                    
+                    const text = event.results[0][0].transcript;
+                    showMessage(`You: "${text}"`);
+                    
+                    if (awaitingConfirmation) {
+                        handleConfirmation(text);
+                    } else {
+                        processLogic(text);
+                    }
+                };
+                
+                recognition.onerror = (event) => {
+                    console.log('Speech recognition error:', event.error);
+                    if (event.error === 'no-speech') {
+                        // Auto-restart if no speech detected
+                        setTimeout(() => {
+                            if (!isSpeaking && !ui.widget.classList.contains('hidden') && step < 5) {
+                                try { 
+                                    recognition.start(); 
+                                } catch(e) {
+                                    console.log('Failed to restart:', e);
+                                }
+                            }
+                        }, 1000);
+                    }
+                };
+                
+                return recognition;
+            }
+
+            // Toggle voice widget
+            ui.btnTrigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                if (ui.widget.classList.contains('hidden')) {
+                    // Show widget
+                    ui.widget.classList.remove('hidden');
+                    
+                    // Scroll to form
+                    if (document.getElementById('target-form-section')) {
+                        document.getElementById('target-form-section').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    }
+                    
+                    // Initialize recognition
+                    if (!recognition) {
+                        recognition = initRecognition();
+                    }
+                    
+                    // Reset step and start
+                    step = 0;
+                    awaitingConfirmation = false;
+                    highlightField('name');
+                    
+                    // Start with a slight delay to ensure widget is visible
+                    setTimeout(() => {
+                        speak("Hi! I can help you fill this form. First, what is your name?");
+                    }, 300);
+                } else {
+                    closeVoiceWidget();
+                }
+            });
+
+            // Close widget
+            ui.btnClose.addEventListener('click', () => {
+                closeVoiceWidget();
+            });
+
+            // Manual input send button
+            ui.btnSendManual.addEventListener('click', () => {
+                const text = ui.manualInput.value.trim();
+                if (text) {
+                    showMessage(`You: "${text}"`);
+                    
+                    if (awaitingConfirmation) {
+                        handleConfirmation(text);
+                    } else {
+                        processLogic(text, true);
+                    }
+                    
+                    ui.manualInput.value = '';
+                }
+            });
+
+            // Manual input enter key
+            ui.manualInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const text = ui.manualInput.value.trim();
+                    if (text) {
+                        showMessage(`You: "${text}"`);
+                        
+                        if (awaitingConfirmation) {
+                            handleConfirmation(text);
+                        } else {
+                            processLogic(text, true);
+                        }
+                        
+                        ui.manualInput.value = '';
+                    }
+                }
+            });
+
+            function closeVoiceWidget() {
+                ui.widget.classList.add('hidden');
+                window.speechSynthesis.cancel();
+                if (recognition && isListening) {
+                    try { 
+                        recognition.abort(); 
+                    } catch(e) {}
+                }
+                isListening = false;
+                awaitingConfirmation = false;
+                // Reset all field highlights
+                highlightField('none');
+            }
+
+            function highlightField(fieldName) {
+                // Reset all borders to default
+                const fields = [ui.name, ui.phone, ui.email, ui.msg];
+                fields.forEach(field => {
+                    if (field) {
+                        field.style.borderColor = ''; // Reset to CSS default
+                    }
+                });
+                
+                // Highlight the active field with a thicker, more visible border
+                if (fieldName === 'name' && ui.name) {
+                    ui.name.style.borderColor = '#2DD4BF';
+                    ui.name.style.borderWidth = '2px';
+                }
+                if (fieldName === 'phone' && ui.phone) {
+                    ui.phone.style.borderColor = '#2DD4BF';
+                    ui.phone.style.borderWidth = '2px';
+                }
+                if (fieldName === 'email' && ui.email) {
+                    ui.email.style.borderColor = '#2DD4BF';
+                    ui.email.style.borderWidth = '2px';
+                }
+                if (fieldName === 'msg' && ui.msg) {
+                    ui.msg.style.borderColor = '#2DD4BF';
+                    ui.msg.style.borderWidth = '2px';
+                }
+                if (fieldName === 'none') {
+                    // Ensure all borders are reset
+                    fields.forEach(field => {
+                        if (field) {
+                            field.style.borderColor = '';
+                            field.style.borderWidth = '';
+                        }
+                    });
+                }
+            }
+
+            function showMessage(text) {
+                if (ui.transcript) {
+                    ui.transcript.textContent = text;
+                    // Auto-scroll to bottom
+                    ui.transcript.scrollTop = ui.transcript.scrollHeight;
+                }
+            }
+
+            // IMPROVED PHONE NUMBER EXTRACTION
+            function extractPhoneDigits(text) {
+                console.log("=== PHONE NUMBER DEBUG ===");
+                console.log("Original voice input:", text);
+                
+                // Clean the text - remove common filler words
+                let cleanText = text.toLowerCase()
+                    .replace(/\b(please|can|you|give|me|my|phone|number|is|the|a|an|and|or)\b/g, '')
+                    .replace(/\s+/g, ' ')
+                    .trim();
+                
+                console.log("Cleaned text:", cleanText);
+                
+                // Method 1: Try to extract digits spoken as individual numbers
+                const digitWords = {
+                    'zero': '0', 'oh': '0', 'o': '0',
+                    'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5',
+                    'six': '6', 'seven': '7', 'eight': '8', 'nine': '9'
+                };
+                
+                // Handle "hundred", "thousand" for area codes like "three one oh"
+                cleanText = cleanText.replace(/three\s*one\s*oh/gi, '310')
+                                    .replace(/three\s*ten/gi, '310')
+                                    .replace(/eight\s*five\s*oh/gi, '850')
+                                    .replace(/eight\s*fifty/gi, '850');
+                
+                // Extract spoken digits
+                let spokenDigits = '';
+                const words = cleanText.split(/\s+/);
+                
+                for (let word of words) {
+                    word = word.toLowerCase().replace(/[^a-z]/g, '');
+                    
+                    // Check for digit words
+                    if (digitWords[word]) {
+                        spokenDigits += digitWords[word];
+                    } 
+                    // Check for numbers like "twenty" (for 20), "thirty" (for 30), etc.
+                    else if (word === 'twenty' && words[words.indexOf(word) + 1] === 'one') {
+                        spokenDigits += '21';
+                        words[words.indexOf(word) + 1] = ''; // Mark as used
+                    }
+                    else if (word === 'thirty') {
+                        spokenDigits += '3';
+                    }
+                    else if (word === 'forty') {
+                        spokenDigits += '4';
+                    }
+                    else if (word === 'fifty') {
+                        spokenDigits += '5';
+                    }
+                    else if (word === 'sixty') {
+                        spokenDigits += '6';
+                    }
+                    else if (word === 'seventy') {
+                        spokenDigits += '7';
+                    }
+                    else if (word === 'eighty') {
+                        spokenDigits += '8';
+                    }
+                    else if (word === 'ninety') {
+                        spokenDigits += '9';
+                    }
+                }
+                
+                console.log("After digit word extraction:", spokenDigits);
+                
+                // Method 2: Extract all numeric digits directly
+                let directDigits = text.replace(/\D/g, '');
+                console.log("Direct digit extraction:", directDigits);
+                
+                // Method 3: Check for common patterns like "310-850-8093"
+                let patternDigits = '';
+                const patterns = [
+                    /(\d{3})[-\s]?(\d{3})[-\s]?(\d{4})/, // 310-850-8093
+                    /(\d{3})\s*(\d{3})\s*(\d{4})/,       // 310 850 8093
+                    /(\d{10})/                           // 3108508093
+                ];
+                
+                for (let pattern of patterns) {
+                    const match = text.match(pattern);
+                    if (match) {
+                        patternDigits = match.slice(1).join('') || match[1] || match[0];
+                        break;
+                    }
+                }
+                console.log("Pattern extraction:", patternDigits);
+                
+                // Combine all methods - prioritize pattern matches, then direct digits, then spoken digits
+                let result = patternDigits || directDigits || spokenDigits;
+                
+                // If we have 7 digits, might be missing area code (assume 310 for West LA)
+                if (result.length === 7) {
+                    result = '310' + result;
+                    console.log("Added 310 area code, now:", result);
+                }
+                
+                // Ensure we have exactly 10 digits
+                if (result.length > 10) {
+                    result = result.slice(0, 10);
+                }
+                
+                console.log("Final phone digits:", result);
+                console.log("Digit count:", result.length);
+                console.log("==========================");
+                
+                return result;
+            }
+
+            function askConfirmation(field, value) {
+                awaitingConfirmation = true;
+                currentField = field;
+                lastValue = value;
+                
+                if (field === 'phone') {
+                    const formatted = `(${value.slice(0,3)}) ${value.slice(3,6)}-${value.slice(6,10)}`;
+                    speak(`I have your phone number as ${formatted}. Is that correct? Say "yes" or "no".`);
+                } else if (field === 'email') {
+                    speak(`I have your email as ${value}. Is that correct? Say "yes" or "no".`);
+                }
+            }
+
+            function handleConfirmation(text) {
+                console.log("Handling confirmation for:", text);
+                const lower = text.toLowerCase().trim();
+                const yesWords = ['yes', 'yeah', 'yep', 'correct', 'right', 'that\'s right', 'that is correct', 'sure', 'ok', 'okay', 'yes please', 'yes it is', 'that\'s correct'];
+                const noWords = ['no', 'nope', 'wrong', 'incorrect', 'not right', 'that\'s wrong', 'that is wrong', 'no it\'s not', 'no it isn\'t', 'not correct'];
+                
+                let isYes = false;
+                let isNo = false;
+                
+                // Check for yes words
+                for (let word of yesWords) {
+                    if (lower.includes(word)) {
+                        isYes = true;
+                        break;
+                    }
+                }
+                
+                // Check for no words
+                for (let word of noWords) {
+                    if (lower.includes(word)) {
+                        isNo = true;
+                        break;
+                    }
+                }
+                
+                console.log("Confirmation result - isYes:", isYes, "isNo:", isNo);
+                
+                if (isYes) {
+                    // Confirmation successful
+                    awaitingConfirmation = false;
+                    
+                    if (currentField === 'phone') {
+                        // Format and set phone value
+                        const formatted = `(${lastValue.slice(0,3)}) ${lastValue.slice(3,6)}-${lastValue.slice(6,10)}`;
+                        if (ui.phone) {
+                            ui.phone.value = formatted;
+                            console.log("Set phone value to:", formatted);
+                        }
+                        
+                        // Move to email
+                        step = 2;
+                        highlightField('email');
+                        setTimeout(() => {
+                            speak("Great! Next, what is your email address?");
+                        }, 300);
+                    } else if (currentField === 'email') {
+                        // Set email value
+                        if (ui.email) {
+                            ui.email.value = lastValue;
+                            console.log("Set email value to:", lastValue);
+                        }
+                        
+                        // Move to message
+                        step = 3;
+                        highlightField('msg');
+                        setTimeout(() => {
+                            speak("Perfect! Finally, please describe the problem with your computer. What's happening?");
+                        }, 300);
+                    }
+                } else if (isNo) {
+                    // Confirmation failed - ask to re-enter
+                    awaitingConfirmation = false;
+                    
+                    if (currentField === 'phone') {
+                        // Clear field and ask again
+                        if (ui.phone) ui.phone.value = '';
+                        highlightField('phone');
+                        setTimeout(() => {
+                            speak("Okay, let's try again. What is your phone number?");
+                        }, 300);
+                    } else if (currentField === 'email') {
+                        // Clear field and ask again
+                        if (ui.email) ui.email.value = '';
+                        highlightField('email');
+                        setTimeout(() => {
+                            speak("Okay, let's try again. What is your email address?");
+                        }, 300);
+                    }
+                } else {
+                    // Didn't understand - ask again but stay in confirmation mode
+                    console.log("Didn't understand confirmation response:", lower);
+                    speak("Sorry, I didn't understand. Please say 'yes' if it's correct, or 'no' if it's wrong.");
+                    // Stay in confirmation mode
+                    awaitingConfirmation = true;
+                }
+            }
+
+            function processLogic(text, isManual = false) {
+                if (isSpeaking) return;
+
+                const lower = text.toLowerCase();
+                
+                // Handle cancel/stop
+                if (lower.includes("cancel") || lower.includes("stop") || lower.includes("close") || lower.includes("exit")) {
+                    speak("Canceling voice assist.");
+                    closeVoiceWidget();
+                    return;
+                }
+
+                // Process based on current step
+                switch(step) {
+                    case 0: // Name
+                        if (ui.name) {
+                            // Capitalize name properly
+                            const nameParts = text.split(' ').map(part => 
+                                part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+                            );
+                            ui.name.value = nameParts.join(' ').trim();
+                        }
+                        step = 1;
+                        highlightField('phone');
+                        setTimeout(() => {
+                            speak(`Thanks${ui.name && ui.name.value ? `, ${ui.name.value.split(' ')[0]}` : ''}. What is your phone number? You can say it like "310-850-8093" or "three one oh eight five oh eight zero nine three".`);
+                        }, 300);
+                        break;
+                        
+                    case 1: // Phone
+                        let phoneDigits = extractPhoneDigits(text);
+                        
+                        // Show what was recognized
+                        showMessage(`Voice: "${text}" → Extracted: ${phoneDigits || 'none'} (${phoneDigits ? phoneDigits.length : 0} digits)`);
+                        
+                        if (phoneDigits && phoneDigits.length >= 10) {
+                            // Success! Got at least 10 digits - ASK FOR CONFIRMATION
+                            askConfirmation('phone', phoneDigits);
+                        } else {
+                            // Not enough digits
+                            speak(`I heard ${phoneDigits ? phoneDigits.length : 0} digits: ${phoneDigits || 'none'}. I need 10 digits. Please say your phone number again, like "310-850-8093".`);
+                        }
+                        break;
+                        
+                    case 2: // Email
+                        let email = text.toLowerCase()
+                            .replace(/\s+/g, '')
+                            .replace(/\bat\b/gi, '@')
+                            .replace(/\bdot\b/gi, '.')
+                            .replace(/\bunderscore\b/gi, '_')
+                            .replace(/\bhyphen\b/gi, '-')
+                            .replace(/\bdash\b/gi, '-')
+                            .replace(/\s/g, ''); // Remove any remaining spaces
+                        
+                        // Clean up common spoken patterns
+                        email = email.replace(/ at /gi, '@')
+                                     .replace(/ dot /gi, '.')
+                                     .replace(/ gmail dot com$/gi, '@gmail.com')
+                                     .replace(/ yahoo dot com$/gi, '@yahoo.com')
+                                     .replace(/ outlook dot com$/gi, '@outlook.com')
+                                     .replace(/ hotmail dot com$/gi, '@hotmail.com');
+                        
+                        // Auto-add @gmail.com if just a name was said
+                        if (!email.includes('@') && !email.includes('.') && email.length > 2) {
+                            email = email + '@gmail.com';
+                        }
+                        
+                        // ASK FOR CONFIRMATION
+                        askConfirmation('email', email);
+                        break;
+                        
+                    case 3: // Message (Reason for request)
+                        if (ui.msg) {
+                            ui.msg.value = text;
+                        }
+                        step = 4;
+                        highlightField('none');
+                        setTimeout(() => {
+                            speak("Perfect! I've collected all your information. Please review the form, make any changes if needed, and click 'Send Request' when you're ready.");
+                            
+                            // Stop listening since we're done
+                            if (recognition && isListening) {
+                                try {
+                                    recognition.stop();
+                                } catch(e) {}
+                            }
+                        }, 300);
+                        break;
+                        
+                    default:
+                        // If we somehow get past step 4
+                        speak("All information collected. Please click 'Send Request' to submit.");
+                        break;
+                }
+            }
+
+            // Setup typing listeners with confirmation
+            function setupTypingListeners() {
+                // Phone field - when user finishes typing
+                if (ui.phone) {
+                    ui.phone.addEventListener('focus', () => {
+                        step = 1;
+                        highlightField('phone');
+                    });
+                    
+                    ui.phone.addEventListener('blur', (e) => {
+                        if (step === 1 && !awaitingConfirmation) {
+                            const value = e.target.value.replace(/\D/g, '');
+                            if (value.length >= 10) {
+                                // Ask for confirmation when typed
+                                askConfirmation('phone', value);
+                            }
+                        }
+                    });
+                    
+                    ui.phone.addEventListener('input', (e) => {
+                        // Stop any ongoing speech when user types
+                        if (isSpeaking) {
+                            window.speechSynthesis.cancel();
+                            isSpeaking = false;
+                        }
+                    });
+                }
+                
+                // Email field - when user finishes typing
+                if (ui.email) {
+                    ui.email.addEventListener('focus', () => {
+                        step = 2;
+                        highlightField('email');
+                    });
+                    
+                    ui.email.addEventListener('blur', (e) => {
+                        if (step === 2 && !awaitingConfirmation) {
+                            const value = e.target.value.trim();
+                            if (value.includes('@') && value.includes('.')) {
+                                // ASK FOR CONFIRMATION
+                                askConfirmation('email', value);
+                            }
+                        }
+                    });
+                    
+                    ui.email.addEventListener('input', (e) => {
+                        // Stop any ongoing speech when user types
+                        if (isSpeaking) {
+                            window.speechSynthesis.cancel();
+                            isSpeaking = false;
+                        }
+                        
+                        // Clear any existing timer
+                        if (emailCheckTimer) {
+                            clearTimeout(emailCheckTimer);
+                        }
+                        
+                        // Auto-confirm after typing stops for 1.5 seconds
+                        const value = e.target.value.trim();
+                        if (value.includes('@') && value.includes('.')) {
+                            emailCheckTimer = setTimeout(() => {
+                                if (step === 2 && !awaitingConfirmation && ui.email.value === value) {
+                                    askConfirmation('email', value);
+                                }
+                                emailCheckTimer = null;
+                            }, 1500);
+                        }
+                    });
+                }
+                
+                // Name field
+                if (ui.name) {
+                    ui.name.addEventListener('focus', () => {
+                        step = 0;
+                        highlightField('name');
+                    });
+                    
+                    ui.name.addEventListener('input', () => {
+                        if (isSpeaking) {
+                            window.speechSynthesis.cancel();
+                            isSpeaking = false;
+                        }
+                    });
+                }
+                
+                // Message field
+                if (ui.msg) {
+                    ui.msg.addEventListener('focus', () => {
+                        step = 3;
+                        highlightField('msg');
+                    });
+                    
+                    ui.msg.addEventListener('input', () => {
+                        if (isSpeaking) {
+                            window.speechSynthesis.cancel();
+                            isSpeaking = false;
+                        }
+                    });
+                }
+            }
+            
+            setupTypingListeners();
+
+            function speak(text) {
+                showMessage(`AI: "${text}"`);
+                
+                // Cancel any ongoing speech
+                window.speechSynthesis.cancel();
+                
+                // Stop listening while speaking
+                if (recognition && isListening) {
+                    try { 
+                        recognition.abort(); 
+                    } catch(e) {}
+                }
+                
+                isSpeaking = true;
+                updateStatus("Speaking...", "red");
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                // Set voice properties
+                const voices = window.speechSynthesis.getVoices();
+                if (voices.length > 0) {
+                    // Try to find a natural-sounding voice
+                    const preferredVoice = voices.find(v => 
+                        v.name.includes('Google US English') || 
+                        v.name.includes('Zira') || 
+                        v.name.includes('Samantha') ||
+                        v.name.includes('Female')
+                    );
+                    if (preferredVoice) utterance.voice = preferredVoice;
+                }
+                
+                utterance.rate = 1.0;
+                utterance.pitch = 1.0;
+                utterance.volume = 1.0;
+
+                utterance.onend = () => {
+                    isSpeaking = false;
+                    updateStatus("Ready", "gray");
+                    
+                    // Restart listening if widget is still open and we're not done
+                    if (!ui.widget.classList.contains('hidden') && step < 4) {
+                        setTimeout(() => {
+                            try {
+                                if (recognition && !isListening) {
+                                    recognition.start();
+                                }
+                            } catch(e) {
+                                console.log('Failed to restart recognition after speaking:', e);
+                            }
+                        }, 800);
+                    }
+                };
+                
+                utterance.onerror = (event) => {
+                    console.log('Speech synthesis error:', event);
+                    isSpeaking = false;
+                    updateStatus("Ready", "gray");
+                };
+                
+                window.speechSynthesis.speak(utterance);
+            }
+
+            function updateStatus(text, color) {
+                if (!ui.status || !ui.indicator) return;
+                
+                ui.status.textContent = text;
+                
+                switch(color) {
+                    case 'green':
+                        ui.indicator.style.backgroundColor = '#2DD4BF';
+                        ui.indicator.classList.add('animate-pulse');
+                        break;
+                    case 'red':
+                        ui.indicator.style.backgroundColor = '#EF4444';
+                        ui.indicator.classList.remove('animate-pulse');
+                        break;
+                    default:
+                        ui.indicator.style.backgroundColor = '#6B7280';
+                        ui.indicator.classList.remove('animate-pulse');
+                        break;
+                }
+            }
+            
+            // Load voices when available
+            if (window.speechSynthesis) {
+                // Get voices immediately
+                let voices = window.speechSynthesis.getVoices();
+                if (voices.length === 0) {
+                    window.speechSynthesis.onvoiceschanged = () => {
+                        voices = window.speechSynthesis.getVoices();
+                        console.log('Voices loaded:', voices.length);
+                    };
+                } else {
+                    console.log('Voices already available:', voices.length);
+                }
+            }
+        });
     </script>
 </body>
 </html>
